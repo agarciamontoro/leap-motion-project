@@ -15,7 +15,6 @@ def toPolar(pos):
 
 class BilliardBall(Ball):
     def __init__(self, coord=[0.0,0.0], vel=[0.0,0.0], b_type=BBallType.whitey, color=steel_red):
-        self.coord = [coord[0], BALL_RADIUS, coord[1]]
         self.vel = [vel[0], 0.0, vel[1]]
         self.type = b_type
 
@@ -24,10 +23,12 @@ class BilliardBall(Ball):
 
         self.first_radius = self.radius = BALL_RADIUS
         if self.type == BBallType.whitey:
-            self.radius = BALL_RADIUS*0.9
+            self.first_radius = self.radius = BALL_RADIUS*0.9
             color=steel_white
         if self.type == BBallType.black:
             color = black
+
+        self.coord = [coord[0], self.radius, coord[1]]
 
         Ball.__init__(self, color, self.radius, self.coord)
 
@@ -49,7 +50,8 @@ class BilliardBall(Ball):
         speed_module = self.velToPolar()[0]
         dist = distance(self.coord, other_ball.coord) - (self.radius+other_ball.radius)
 
-        if speed_module != 0 and 0 < dist / speed_module < 1:
+        if speed_module != 0 and 0 < dist / speed_module <= 1:
+            print("HOLA")
             return True
 
         return distance(self.coord, other_ball.coord) <= self.radius+other_ball.radius
@@ -82,8 +84,8 @@ class BilliardBall(Ball):
 
         new_vel_2_y = polar_vel_1[0] * math.cos(polar_vel_1[1]-collision_angle) * math.sin(collision_angle) + polar_vel_2[0] * math.sin(polar_vel_2[1]-collision_angle) * math.sin(collision_angle + math.pi/2)
 
-        self.vel        = [COF*new_vel_1_x, 0.0, COF*new_vel_1_y]
-        other_ball.vel  = [COF*new_vel_2_x, 0.0, COF*new_vel_2_y]
+        self.vel        = [new_vel_1_x, 0.0, new_vel_1_y]
+        other_ball.vel  = [new_vel_2_x, 0.0, new_vel_2_y]
 
     def activateHighlight(self):
         self.highlighted = True
@@ -98,7 +100,7 @@ class BilliardBall(Ball):
             self.radius = self.radius + 0.3*math.sin(radian_tick)
 
 class BilliardTable:
-    def __init__(self, width=1500, length=1000, height=2*BALL_RADIUS, center = [0.0, 0.0, 0.0]):
+    def __init__(self, width=200, length=120, height=2*BALL_RADIUS, center = [0.0, 0.0, 0.0]):
         self.width = width
         self.length = length
         self.height = height
@@ -114,6 +116,17 @@ class BilliardTable:
         corners = [top_left_corner, bottom_left_corner, bottom_right_corner, top_right_corner]
 
         self.table = Quad(corners, billiard_green)
+
+    def wallCollisionUpdate(self,ball):
+        speed_module = ball.velToPolar()[0]
+        dist_x = self.width/2.  - abs(ball.coord[0])
+        dist_y = self.length/2. - abs(ball.coord[2])
+
+        if dist_x <= ball.radius:
+            ball.vel[0] = -ball.vel[0]
+        if dist_y <= ball.radius:
+            ball.vel[2] = -ball.vel[2]
+
 
     def draw(self):
         self.table.draw()
