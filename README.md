@@ -18,6 +18,7 @@ The project is coded in Python, using the Leap Motion driver and the OpenGL libr
 5. **Python2-pygame**
 6. **Python2-pillow**
 7. **Python2-enum34**
+8. **Python2-shapely**
 
 The most common distributions have all the library packages needed, but maybe the Leap Motion driver and SDK are not in the repositories. However, it is easy to download them from the [Download](https://developer.leapmotion.com/downloads) section of Leap Motion web page.
 
