@@ -65,7 +65,6 @@ class BilliardBall(Ball):
         if self.isMoving() and other_ball.isMoving():
             segment1 = LineString([p1,q1])
             segment2 = LineString([p2,q2])
-            print(list(segment1.coords),list(segment2.coords))
             return segment1.distance(segment2) <= self.radius+other_ball.radius
 
         elif self.isMoving():
