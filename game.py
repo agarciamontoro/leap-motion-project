@@ -44,7 +44,7 @@ def initGame(listener):
     # solid_6   = BilliardBall([0,0],[0.0,0.0], BBallType.solid, steel_yellow)
     # solid_7   = BilliardBall([0,0],[0.0,0.0], BBallType.solid, steel_yellow)
 
-    b_whitey    = BilliardBall([0,10],[0.0,0.0], BBallType.whitey)
+    b_whitey    = BilliardBall([0,10],[5.0,5.0], BBallType.whitey)
     b_black     = BilliardBall([0,-25],[0.0,0.0], BBallType.black)
 
     # b_balls = [striped_1, striped_2, striped_3, striped_4, striped_5, striped_6, striped_7, solid_1, solid_2, solid_3, solid_4, solid_5, solid_6, solid_7, whitey, black]
@@ -63,7 +63,7 @@ def isAnyCollision(b_list):
     return False
 
 def processFrame():
-    new_frame, hands = leap.getHands()
+    #new_frame, hands = leap.getHands()
 
     # # Test the image object: shows the tutorial image for the first five seconds
     # if time.time() - last_data_time[0] < 5:
@@ -84,26 +84,26 @@ def processFrame():
     '''
     global shoot_mode, force
 
-    for i in range(2):
-        if new_frame[i]:
-            if gestures.isGestureOK(hands[i]):
-                shoot_mode = True
-                hand_pos = [hands[i].palm_position[j] for j in range(3)]
-
-                force_line.setBall(b_whitey)
-                force_line.setOrigin(hand_pos)
-
-                force = force_line.getForce()
-                objects.append(force_line)
-            elif shoot_mode:
-                shoot_mode = False
-                b_whitey.vel = force
-
-            draw_hand[i].setHand(hands[i])
-            objects.append(draw_hand[i])
-            last_data_time[i] = time.time()
-        elif time.time() - last_data_time[i] < time_margin:
-            objects.append(draw_hand[i])
+    # for i in range(2):
+    #     if new_frame[i]:
+    #         if gestures.isGestureOK(hands[i]):
+    #             shoot_mode = True
+    #             hand_pos = [hands[i].palm_position[j] for j in range(3)]
+    #
+    #             force_line.setBall(b_whitey)
+    #             force_line.setOrigin(hand_pos)
+    #
+    #             force = force_line.getForce()
+    #             objects.append(force_line)
+    #         elif shoot_mode:
+    #             shoot_mode = False
+    #             b_whitey.vel = force
+    #
+    #         draw_hand[i].setHand(hands[i])
+    #         objects.append(draw_hand[i])
+    #         last_data_time[i] = time.time()
+    #     elif time.time() - last_data_time[i] < time_margin:
+    #         objects.append(draw_hand[i])
 
     for ball, other_ball in itertools.combinations(b_balls,2):
         if ball.collide(other_ball):

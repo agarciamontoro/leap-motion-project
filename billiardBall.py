@@ -8,6 +8,9 @@ from operator import add
 def distance(pos1,pos2):
     return math.sqrt(sum([(pos2[i]-pos1[i])**2 for i in range(3)]))
 
+def crossProduct(v,w):
+    return v[0]*w[2] + v[2]*w[0]
+
 def toPolar(pos):
     module = math.sqrt(sum([pos[i]**2 for i in range(2)]))
     angle = math.atan2(pos[1], pos[0])
@@ -46,15 +49,60 @@ class BilliardBall(Ball):
         vel_module = self.velToPolar()[0]
         return vel_module > 0
 
-    def collide(self, other_ball):
-        speed_module = self.velToPolar()[0]
+    def isMovingToBall(self,other_ball):
+        x_dir = (other_ball.coord[0] - self.coord[0]) * (self.vel[0] - other_ball.vel[0])
+        y_dir = (other_ball.coord[2] - self.coord[2]) * (self.vel[2] - other_ball.vel[2])
+        return x_dir + y_dir > 0
+
+    def collide_old(self, other_ball):
+        self_speed  = self.velToPolar()[0]
+        other_speed = other_ball.velToPolar()[0]
+        sum_speed = self_speed + other_speed
+
         dist = distance(self.coord, other_ball.coord) - (self.radius+other_ball.radius)
 
-        if speed_module != 0 and 0 < dist / speed_module <= 1:
+        if self.isMovingToBall(other_ball) and sum_speed != 0 and 0 < dist / sum_speed <= 1:
             print("HOLA")
             return True
 
         return distance(self.coord, other_ball.coord) <= self.radius+other_ball.radius
+
+    def collide_semiold(self, other_ball):
+        if self.isMovingToBall(other_ball):
+            A = self.vel[0] ** 2 + self.vel[2] ** 2 - 2 * self.vel[0] * other_ball.vel[0] + other_ball.vel[0] ** 2 - 2 * self.vel[2] * other_ball.vel[2] + other_ball.vel[2] ** 2
+            B = -self.coord[0] * self.vel[0] - self.coord[2] * self.vel[2] + self.vel[0] * other_ball.coord[0] + self.vel[2] * other_ball.coord[2] + self.coord[0] * other_ball.vel[0] - other_ball.coord[0] * other_ball.vel[0] + self.coord[2] * other_ball.vel[2] - other_ball.coord[2] * other_ball.vel[2]
+            C = self.vel[0] ** 2 + self.vel[2] ** 2 - 2 * self.vel[0] * other_ball.vel[0] + other_ball.vel[0] ** 2 - 2 * self.vel[2] * other_ball.vel[2] + other_ball.vel[2] ** 2
+            D = self.coord[0] ** 2 + self.coord[2] ** 2 - self.radius ** 2 - 2 * self.coord[0] * other_ball.coord[0] + other_ball.coord[0] ** 2 - 2 * self.coord[2] * other_ball.coord[2] + other_ball.coord[2] ** 2 - 2 * self.radius * other_ball.radius - other_ball.radius ** 2
+
+            discriminant = (-2 * B) ** 2 - 4 * C * D
+
+            if discriminant >= 0:
+                t = min(0.5 * (2. * B - math.sqrt(discriminant)) / A, 0.5 * (2. * B + math.sqrt(discriminant)) / A)
+                return t <= 1
+
+            return False
+
+    # From http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+    def collide(self, other_ball):
+        p = self.coord
+        q = other_ball.coord
+
+        pq = [q[i] - p[i] for i in range(3)]
+
+        # Predict position in the next frame
+        r = self.vel
+        s = other_ball.vel
+
+        if crossProduct(r,s) != 0:
+            t = crossProduct(pq,s) / crossProduct(r,s)
+            u = crossProduct(pq,r) / crossProduct(r,s)
+            return 0 <= t <= 1 and 0 <= u <= 1
+        elif crossProduct(pq,r) != 0:
+            return False
+        else:
+            return False
+
+
 
     # def tableCollision(self, table):
     #     if table.collision(self) == VERTICAL:
