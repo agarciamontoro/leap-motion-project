@@ -56,12 +56,6 @@ def initGame(listener):
 
     shoot_mode = False
 
-def isAnyCollision(b_list):
-    for ball, other_ball in itertools.combinations(b_list,2):
-        if ball.collide(other_ball):
-            return True
-    return False
-
 def processFrame():
     #new_frame, hands = leap.getHands()
 
@@ -84,6 +78,9 @@ def processFrame():
     '''
     global shoot_mode, force
 
+    # if sum(new_frame) == 2:
+    #     menu.swap()
+    
     # for i in range(2):
     #     if new_frame[i]:
     #         if gestures.isGestureOK(hands[i]):
