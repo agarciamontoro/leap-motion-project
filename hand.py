@@ -6,16 +6,17 @@ from OpenGL.GLUT import *
 
 from constants import *
 import primitives
+import Leap
 
 class Finger:
-    def __init__(self, finger, color):
+    def __init__(self, finger, color, iBox):
         self.color = color
         self.phalanxes = []
         self.knuckles = []
 
         for i in range(1,3):
-            bone_tip = finger.bone(i).next_joint
-            bone_base= finger.bone(i+1).next_joint
+            bone_tip = self.leap_to_world(finger.bone(i).next_joint, iBox)
+            bone_base= self.leap_to_world(finger.bone(i+1).next_joint, iBox)
 
             line = primitives.Line([bone_tip, bone_base], self.color)
             ball_ = primitives.Ball(self.color,finger.bone(i).width/4,bone_tip)
@@ -23,8 +24,14 @@ class Finger:
             self.phalanxes.append(line)
             self.knuckles.append(ball_)
 
-        ball_ = primitives.Ball(self.color,finger.bone(3).width/4,finger.bone(3).next_joint)
+        ball_ = primitives.Ball(self.color,finger.bone(3).width/4,self.leap_to_world(finger.bone(3).next_joint, iBox))
         self.knuckles.append(ball_)
+
+    def leap_to_world(self, leap_point, iBox):
+	    leap_point.z *= 1.0; #right-hand to left-hand rule
+	    normalized = iBox.normalize_point(leap_point, False)
+	    normalized = normalized + Leap.Vector(-0.5, 0, -0.5); #recenter origin
+	    return normalized * 200; #scale
 
     def draw(self):
         for knuckle in self.knuckles:
@@ -43,13 +50,19 @@ class Hand:
         self.color = steel_red
         self.fingers = []
 
-    def setHand(self,hand):
+    def setHand(self,hand,iBox):
+        self.hand = hand
         self.fingers = []
 
         for finger in hand.fingers:
-            draw_finger = Finger(finger,self.color)
+            draw_finger = Finger(finger,self.color,iBox)
             self.fingers.append(draw_finger)
 
     def draw(self):
+        glPushMatrix()
+        glTranslatef(self.hand.palm_position[0], self.hand.palm_position[1], self.hand.palm_position[2])
+        glScalef(0.5, 0.5, 0.5)
         for finger in self.fingers:
             finger.draw()
+        glTranslatef(-self.hand.palm_position[0], -self.hand.palm_position[1], -self.hand.palm_position[2])
+        glPopMatrix()

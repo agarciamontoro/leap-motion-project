@@ -9,6 +9,7 @@ class SampleListener(Leap.Listener):
 	def on_init(self, controller):
 		self.new_frame = [False, False]
 		self.hands = None
+		self.iBox = None
 		print "Initialized"
 
 	def on_connect(self, controller):
@@ -22,7 +23,8 @@ class SampleListener(Leap.Listener):
 		print "Exited"
 
 	def getHands(self):
-		return self.new_frame, self.hands
+		#self.normalize_everything()
+		return self.new_frame, self.hands, self.iBox
 
 	def tutorialFinished(self):
 		return current_step >= tutorial_steps
@@ -32,7 +34,7 @@ class SampleListener(Leap.Listener):
 
 	def on_frame(self, controller):
 		frame = controller.frame()
-
+		self.iBox = frame.interaction_box
 		self.new_frame = [False, False]
 
 		if not frame.hands.is_empty:

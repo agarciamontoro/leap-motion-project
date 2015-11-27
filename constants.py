@@ -2,7 +2,7 @@ from enum import Enum
 
 COF = 0.99
 
-BALL_RADIUS = 5.
+BALL_RADIUS = 10.
 
 FORCE_CONSTANT = 15.
 
