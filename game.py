@@ -56,12 +56,6 @@ def initGame(listener):
 
     shoot_mode = False
 
-def isAnyCollision(b_list):
-    for ball, other_ball in itertools.combinations(b_list,2):
-        if ball.collide(other_ball):
-            return True
-    return False
-
 def processFrame():
     new_frame, hands, iBox = leap.getHands()
 
@@ -84,26 +78,29 @@ def processFrame():
     '''
     global shoot_mode, force
 
-    for i in range(2):
-        if new_frame[i]:
-            if gestures.isGestureOK(hands[i]):
-                shoot_mode = True
-                hand_pos = [hands[i].palm_position[j] for j in range(3)]
+    # if sum(new_frame) == 2:
+    #     menu.swap()
 
-                force_line.setBall(b_whitey)
-                force_line.setOrigin(hand_pos)
-
-                force = force_line.getForce()
-                objects.append(force_line)
-            elif shoot_mode:
-                shoot_mode = False
-                b_whitey.vel = force
-
-            draw_hand[i].setHand(hands[i], iBox)
-            objects.append(draw_hand[i])
-            last_data_time[i] = time.time()
-        elif time.time() - last_data_time[i] < time_margin:
-            objects.append(draw_hand[i])
+    # for i in range(2):
+    #     if new_frame[i]:
+    #         if gestures.isGestureOK(hands[i]):
+    #             shoot_mode = True
+    #             hand_pos = [hands[i].palm_position[j] for j in range(3)]
+    #
+    #             force_line.setBall(b_whitey)
+    #             force_line.setOrigin(hand_pos)
+    #
+    #             force = force_line.getForce()
+    #             objects.append(force_line)
+    #         elif shoot_mode:
+    #             shoot_mode = False
+    #             b_whitey.vel = force
+    #
+    #         draw_hand[i].setHand(hands[i])
+    #         objects.append(draw_hand[i])
+    #         last_data_time[i] = time.time()
+    #     elif time.time() - last_data_time[i] < time_margin:
+    #         objects.append(draw_hand[i])
 
     for ball, other_ball in itertools.combinations(b_balls,2):
         if ball.collide(other_ball):
