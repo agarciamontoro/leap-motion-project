@@ -8,7 +8,7 @@ import math
 class SampleListener(Leap.Listener):
 	def on_init(self, controller):
 		self.new_frame = [False, False]
-		self.hands = None
+		self.hands = [None,None]
 		self.iBox = None
 		print "Initialized"
 

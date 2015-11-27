@@ -30,6 +30,7 @@ class ForceLine(Line):
 
     def setOrigin(self, pos):
         self.points[1] = pos
+        self.points[1][1] = self.points[0][1]
         self.setColor()
 
     def getForce(self):

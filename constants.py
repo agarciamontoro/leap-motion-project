@@ -9,6 +9,8 @@ FORCE_CONSTANT = 15.
 SLICES = 50
 STACKS = 50
 
+BUTTON_TOL = 10.
+
 steel_blue   = [0.27,0.5,0.7]
 steel_red    = [1.0,0.32,0.32]
 steel_yellow = [1.0, 0.75, 0.03]

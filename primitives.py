@@ -13,6 +13,8 @@ import math
 
 from constants import *
 
+from operator import add
+
 class Image:
     def __init__(self, img_file_name):
         image = PIL.Image.open(img_file_name)
@@ -155,6 +157,45 @@ class Quad:
             glVertex3f(*point)
         glEnd()
 
+class Circle:
+    def __init__(self,center=[0.,0.],radius=10,color=steel_red):
+        self.center = center
+        self.radius = radius
+        self.color  = color
+
+    def draw(self):
+        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+
+        glMatrixMode(GL_PROJECTION)
+        glPushMatrix()
+        glLoadIdentity()
+        glOrtho(0.0, window_size[0], 0.0, window_size[1], -1.0, 1.0)
+        glMatrixMode(GL_MODELVIEW)
+        glPushMatrix()
+
+        glLoadIdentity()
+
+        glColor3f(*self.color)
+
+        # Draw a filled disk
+        glBegin(GL_POLYGON)
+        for i in range(SLICES):
+            angle = i*2*math.pi/SLICES
+            x = self.radius * math.cos(angle) + self.center[0]
+            y = self.radius * math.sin(angle) + self.center[1]
+
+            glVertex2f(x,y)
+        glEnd()
+
+        glPopMatrix()
+
+        glMatrixMode(GL_PROJECTION)
+        glPopMatrix()
+
+        glMatrixMode(GL_MODELVIEW)
+
+
+
 class Loader:
     loader_radius = 55
     loader_width = 15
@@ -170,6 +211,9 @@ class Loader:
 
     def deactivate(self):
         self.loading = False
+        self.reset()
+
+    def reset(self):
         self.load_perc = 0
 
     def load(self):
@@ -194,6 +238,8 @@ class Loader:
             glColor3f(*self.color)
 
             for tick in range(self.load_perc):
+                radius = self.loader_width * tick / 100.
+
                 angle  = tick*2.0*math.pi/100.0
                 center_x = self.loader_radius * math.cos(angle) + self.center[0]
                 center_y = self.loader_radius * math.sin(angle) + self.center[1]
@@ -202,8 +248,8 @@ class Loader:
                 glBegin(GL_POLYGON)
                 for i in range(SLICES):
                     inner_angle = i*2*math.pi/SLICES
-                    x = self.loader_width * math.cos(inner_angle) + center_x
-                    y = self.loader_width * math.sin(inner_angle) + center_y
+                    x = radius * math.cos(inner_angle) + center_x
+                    y = radius * math.sin(inner_angle) + center_y
 
                     glVertex2f(x,y)
                 glEnd()
@@ -214,3 +260,52 @@ class Loader:
             glPopMatrix()
 
             glMatrixMode(GL_MODELVIEW)
+
+class Button(object):
+    def __init__(self, rect, epsilon = BUTTON_TOL):
+        self.rect = rect
+        self.epsilon = epsilon
+
+    def isTouched(self, point):
+        return self.rect[0][0] - self.epsilon < point[0] < self.rect[1][0] + self.epsilon and self.rect[0][1] - self.epsilon < point[1] < self.rect[1][1] + self.epsilon
+
+    def getCenter(self):
+        middle_point = map(add,self.rect[0],self.rect[1])
+
+        return [coord/2 for coord in middle_point]
+
+    def draw(self):
+        width = self.rect[1][0] - self.rect[0][0]
+        height = self.rect[1][1] - self.rect[0][1]
+
+        bottom_left_c = self.rect[0]
+        top_left_c = map(add,bottom_left_c,[0,height])
+        top_right_c = self.rect[1]
+        bottom_right_c = map(add,bottom_left_c,[width,0])
+
+        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+
+        glMatrixMode(GL_PROJECTION)
+        glPushMatrix()
+        glLoadIdentity()
+        glOrtho(0.0, window_size[0], 0.0, window_size[1], -1.0, 1.0)
+        glMatrixMode(GL_MODELVIEW)
+        glPushMatrix()
+
+        glLoadIdentity()
+
+        glColor3f(1.0,0.0,0.0)
+
+        glBegin(GL_POLYGON)
+        glVertex2f(*bottom_left_c)
+        glVertex2f(*top_left_c)
+        glVertex2f(*top_right_c)
+        glVertex2f(*bottom_right_c)
+        glEnd()
+
+        glPopMatrix()
+
+        glMatrixMode(GL_PROJECTION)
+        glPopMatrix()
+
+        glMatrixMode(GL_MODELVIEW)

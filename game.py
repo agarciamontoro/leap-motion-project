@@ -8,10 +8,11 @@ import LeapDriver
 import hand
 import gestures
 from forceLine import ForceLine
+from menu import Menu, Screen, ActionButton, NavigationalButton
 
 import itertools
 
-draw_hand = [hand.Hand(), hand.Hand()]
+draw_hands = [hand.Hand(), hand.Hand()]
 last_data_time = [0,0]
 time_margin = 0.07
 
@@ -19,12 +20,14 @@ time_margin = 0.07
 def distance(pos1,pos2):
     return math.sqrt(sum([(pos2[i]-pos1[i])**2 for i in range(3)]))
 
+def doubleRadius():
+    print("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY")
+
 def initGame(listener):
-    global leap, last_data_time, tutorial, b_table, b_whitey, b_balls, loader, force_line, shoot_mode
+    global leap, last_data_time, tutorial, b_table, b_whitey, b_balls, loader, force_line, shoot_mode, prev_num_hands, menu, start_screen, option_screen
 
     leap = listener
     last_data_time = [time.time(), time.time()]
-    tutorial = primitives.Image("./Screenshots/01.png")
 
     b_table = BilliardTable()
 
@@ -56,58 +59,63 @@ def initGame(listener):
 
     shoot_mode = False
 
+    prev_num_hands = 0
+
+    option_button = ActionButton([[110,120],[160,170]], doubleRadius)
+    option_screen = Screen("./Screenshots/02.png", [option_button])
+
+    navigate_button = NavigationalButton([[10,20], [60,70]], option_screen)
+
+    start_screen = Screen("./Screenshots/01.png", [navigate_button])
+
+    menu = Menu(start_screen,loader)
+
 def processFrame():
+    global shoot_mode, force, prev_num_hands
+
     new_frame, hands, iBox = leap.getHands()
+    objects = [menu, b_table]
 
-    # # Test the image object: shows the tutorial image for the first five seconds
-    # if time.time() - last_data_time[0] < 5:
-    #     objects.append(tutorial)
+    if sum(new_frame) == 2 and prev_num_hands == 1:
+        menu.swap()
+    prev_num_hands = sum(new_frame)
 
+    if not menu.enabled:
+        for is_new, hand, draw_hand, prev_time in zip(new_frame, hands, draw_hands, last_data_time):
+            if is_new:
+                if gestures.isGestureOK(hand):
+                    shoot_mode = True
+                    hand_pos = [hand.palm_position[j] for j in range(3)]
 
-    # Test highlight. This should be done only when the ball is touched
-    #b_whitey.activateHighlight()
-    #b_whitey.highlight()
+                    force_line.setBall(b_whitey)
+                    force_line.setOrigin(hand_pos)
 
-    objects = [b_table] + b_balls
+                    force = force_line.getForce()
+                    objects.append(force_line)
+                elif shoot_mode:
+                    shoot_mode = False
+                    b_whitey.vel = force
 
-    '''
-    if loader.load():
-        loader.deactivate()
+                draw_hand.setHand(hand,iBox)
+                objects.append(draw_hand)
+                prev_time = time.time()
+            elif time.time() - prev_time < time_margin:
+                objects.append(draw_hand)
+
+        for ball, other_ball in itertools.combinations(b_balls,2):
+            if ball.collide(other_ball):
+                ball.ellasticCollisionUpdate(other_ball)
+
+        for ball in b_balls:
+            b_table.wallCollisionUpdate(ball)
+            ball.updatePos()
+
+        objects += b_balls
     else:
-        objects = objects + [loader, tutorial] #The order is important: always puts loader first
-    '''
-    global shoot_mode, force
-
-    # if sum(new_frame) == 2:
-    #     menu.swap()
-
-    # for i in range(2):
-    #     if new_frame[i]:
-    #         if gestures.isGestureOK(hands[i]):
-    #             shoot_mode = True
-    #             hand_pos = [hands[i].palm_position[j] for j in range(3)]
-    #
-    #             force_line.setBall(b_whitey)
-    #             force_line.setOrigin(hand_pos)
-    #
-    #             force = force_line.getForce()
-    #             objects.append(force_line)
-    #         elif shoot_mode:
-    #             shoot_mode = False
-    #             b_whitey.vel = force
-    #
-    #         draw_hand[i].setHand(hands[i])
-    #         objects.append(draw_hand[i])
-    #         last_data_time[i] = time.time()
-    #     elif time.time() - last_data_time[i] < time_margin:
-    #         objects.append(draw_hand[i])
-
-    for ball, other_ball in itertools.combinations(b_balls,2):
-        if ball.collide(other_ball):
-            ball.ellasticCollisionUpdate(other_ball)
-
-    for ball in b_balls:
-        b_table.wallCollisionUpdate(ball)
-        ball.updatePos()
+        for is_new, hand, draw_hand in zip(new_frame, hands, draw_hands):
+            if is_new and hand.is_right:
+                draw_hand.setHand(hand,iBox)
+                pointer = draw_hand.get2DwindowPosition()
+                menu.process(pointer)
 
     return objects

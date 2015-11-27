@@ -30,7 +30,7 @@ class Finger:
     def leap_to_world(self, leap_point, iBox):
 	    leap_point.z *= 1.0; #right-hand to left-hand rule
 	    normalized = iBox.normalize_point(leap_point, False)
-	    normalized = normalized + Leap.Vector(-0.5, 0, -0.5); #recenter origin
+	    normalized = normalized #+ Leap.Vector(-0.5, 0, -0.5); #recenter origin
 	    return normalized * 200; #scale
 
     def draw(self):
@@ -53,10 +53,24 @@ class Hand:
     def setHand(self,hand,iBox):
         self.hand = hand
         self.fingers = []
+        self.iBox = iBox
 
         for finger in hand.fingers:
-            draw_finger = Finger(finger,self.color,iBox)
+            draw_finger = Finger(finger,self.color,self.iBox)
             self.fingers.append(draw_finger)
+
+    def get2DwindowPosition(self):
+        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        app_width = window_size[0]
+        app_height = window_size[1]
+
+        leapPoint = self.hand.palm_position
+        normalizedPoint = self.iBox.normalize_point(leapPoint, False)
+
+        app_x = normalizedPoint.x * app_width
+        app_y = (1 - normalizedPoint.z) * app_height
+
+        return([app_x,app_y])
 
     def draw(self):
         glPushMatrix()
