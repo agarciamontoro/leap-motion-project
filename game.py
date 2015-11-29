@@ -51,13 +51,13 @@ def initGame(listener):
     solid_6    = BilliardBall([-(triEdge+3*aux),-(triCol*3)],[0.0,0.0], BBallType.solid, steel_yellow)
     striped_10 = BilliardBall([-(triEdge+3*aux),-triCol],[0.0,0.0], BBallType.striped, steel_yellow)
     solid_3    = BilliardBall([-(triEdge+3*aux),triCol],[0.0,0.0], BBallType.solid, black)
-    striped_14 = BilliardBall([-(triEdge+3*aux),(tricol*3)],[0.0,0.0], BBallType.striped, steel_red)
+    striped_14 = BilliardBall([-(triEdge+3*aux),(triCol*3)],[0.0,0.0], BBallType.striped, steel_red)
     # Fifth row
-    striped_11 = BilliardBall([-(triEdge+4*aux),-(tricol*4)],[0.0,0.0], BBallType.striped, steel_orange)
+    striped_11 = BilliardBall([-(triEdge+4*aux),-(triCol*4)],[0.0,0.0], BBallType.striped, steel_orange)
     solid_2    = BilliardBall([-(triEdge+4*aux),-(triCol*2)],[0.0,0.0], BBallType.solid, steel_green)
     striped_13 = BilliardBall([-(triEdge+4*aux),0],[0.0,0.0], BBallType.striped, steel_red)
     solid_4    = BilliardBall([-(triEdge+4*aux),(triCol*2)],[0.0,0.0], BBallType.solid, steel_yellow)
-    solid_5    = BilliardBall([-(triEdge+4*aux),(tricol*4)],[0.0,0.0], BBallType.solid, steel_yellow)
+    solid_5    = BilliardBall([-(triEdge+4*aux),(triCol*4)],[0.0,0.0], BBallType.solid, steel_yellow)
 
     b_balls = [striped_9, striped_10, striped_11, striped_12, striped_13, striped_14, striped_15, solid_1, solid_2, solid_3, solid_4, solid_5, solid_6, solid_7, b_whitey, b_black]
     #b_balls = [striped_1, striped_2, solid_1, solid_2, b_whitey, b_black]
