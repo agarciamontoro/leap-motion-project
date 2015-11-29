@@ -64,7 +64,7 @@ class Hand:
         app_width = window_size[0]
         app_height = window_size[1]
 
-        leapPoint = self.hand.palm_position
+        leapPoint = self.hand.stabilized_palm_position
         normalizedPoint = self.iBox.normalize_point(leapPoint, False)
 
         app_x = normalizedPoint.x * app_width

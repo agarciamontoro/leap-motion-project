@@ -195,7 +195,6 @@ class Circle:
         glMatrixMode(GL_MODELVIEW)
 
 
-
 class Loader:
     loader_radius = 55
     loader_width = 15
@@ -205,6 +204,8 @@ class Loader:
         self.color = color
         self.loading = False
         self.load_perc = 0
+
+        self.circle = Circle([0,0],0,self.color)
 
     def activate(self):
         self.loading = True
@@ -224,19 +225,6 @@ class Loader:
 
     def draw(self):
         if self.loading:
-            window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
-
-            glMatrixMode(GL_PROJECTION)
-            glPushMatrix()
-            glLoadIdentity()
-            glOrtho(0.0, window_size[0], 0.0, window_size[1], -1.0, 1.0)
-            glMatrixMode(GL_MODELVIEW)
-            glPushMatrix()
-
-            glLoadIdentity()
-
-            glColor3f(*self.color)
-
             for tick in range(self.load_perc):
                 radius = self.loader_width * tick / 100.
 
@@ -244,22 +232,9 @@ class Loader:
                 center_x = self.loader_radius * math.cos(angle) + self.center[0]
                 center_y = self.loader_radius * math.sin(angle) + self.center[1]
 
-                # Draw a filled disk
-                glBegin(GL_POLYGON)
-                for i in range(SLICES):
-                    inner_angle = i*2*math.pi/SLICES
-                    x = radius * math.cos(inner_angle) + center_x
-                    y = radius * math.sin(inner_angle) + center_y
-
-                    glVertex2f(x,y)
-                glEnd()
-
-            glPopMatrix()
-
-            glMatrixMode(GL_PROJECTION)
-            glPopMatrix()
-
-            glMatrixMode(GL_MODELVIEW)
+                self.circle.center = [center_x,center_y]
+                self.circle.radius = radius
+                self.circle.draw()
 
 class Button(object):
     def __init__(self, rect, epsilon = BUTTON_TOL):
