@@ -89,7 +89,7 @@ class BilliardBall(Ball):
 
         return False
 
-    # Better method for calculate the collisions
+    # Changes the velocity of two balls attending their director vectors and velocities
     def ellasticCollisionUpdate(self, other_ball):
         #self.vel, other_ball.vel = COF*other_ball.vel, COF*self.vel
         # Velocity of both balls
