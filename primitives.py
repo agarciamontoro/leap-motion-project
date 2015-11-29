@@ -79,13 +79,14 @@ class Line:
         self.color = color
 
     def draw(self):
+        # Draw the line
         glColor3f(*self.color)
         glBegin(GL_LINES)
         glVertex3f(*self.points[0])
         glVertex3f(*self.points[1])
         glEnd()
 
-        # Line shadow
+        # Draw the line shadow
         shadows = [[self.points[i][j] for j in range(3)] for i in range(2)]
         shadows[0][1] = shadows[1][1] = 0
         glColor3f(*steel_gray)
@@ -94,6 +95,7 @@ class Line:
         glVertex3f(*shadows[1])
         glEnd()
 
+    # Provides the director vector of the line
     def getDirVector(self):
         vector = [self.points[0][i] - self.points[1][i] for i in range(3)]
         vec_module = math.sqrt(sum([vector[i]**2 for i in range(3)]))

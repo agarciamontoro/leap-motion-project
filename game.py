@@ -23,6 +23,7 @@ def distance(pos1,pos2):
 def doubleRadius():
     print("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY")
 
+# Initializes the game
 def initGame(listener):
     global leap, last_data_time, tutorial, b_table, b_whitey, b_balls, loader, force_line, shoot_mode, prev_num_hands, menu, start_screen, option_screen
 
@@ -31,6 +32,7 @@ def initGame(listener):
 
     b_table = BilliardTable()
 
+    # All the balls in the pool
     striped_9 = BilliardBall([0,0],[0.0,0.0], BBallType.striped, steel_red)
     striped_10 = BilliardBall([0,0],[0.0,0.0], BBallType.striped, steel_yellow)
     striped_11 = BilliardBall([0,0],[0.0,0.0], BBallType.striped, steel_orange)
@@ -53,6 +55,7 @@ def initGame(listener):
     b_balls = [striped_9, striped_10, striped_11, striped_12, striped_13, striped_14, striped_15, solid_1, solid_2, solid_3, solid_4, solid_5, solid_6, solid_7, b_whitey, b_black]
     #b_balls = [striped_1, striped_2, solid_1, solid_2, b_whitey, b_black]
 
+    # Creates and activate the loader
     loader = primitives.Loader([200.0,200.0])
     loader.activate()
     force_line = ForceLine(b_whitey)
@@ -70,6 +73,7 @@ def initGame(listener):
 
     menu = Menu(start_screen,loader)
 
+# Panacea method
 def processFrame():
     global shoot_mode, force, prev_num_hands
 
@@ -80,20 +84,26 @@ def processFrame():
         menu.swap()
     prev_num_hands = sum(new_frame)
 
+    # If the menu is not enabled.
+    # Let the pool begins! And may the odds be ever in your favor.
     if not menu.enabled:
         for is_new, hand, draw_hand, prev_time in zip(new_frame, hands, draw_hands, last_data_time):
             if is_new:
+                # If OK, activates the shoot mode
                 if gestures.isGestureOK(hand):
                     shoot_mode = True
                     hand_pos = [hand.palm_position[j] for j in range(3)]
 
+                    # Stablish the Origin and End of the force line
                     force_line.setBall(b_whitey)
                     force_line.setOrigin(hand_pos)
 
+                    # Force of shoot
                     force = force_line.getForce()
                     objects.append(force_line)
                 elif shoot_mode:
                     shoot_mode = False
+                    # The white ball continues her way
                     b_whitey.vel = force
 
                 draw_hand.setHand(hand,iBox)
@@ -102,16 +112,19 @@ def processFrame():
             elif time.time() - prev_time < time_margin:
                 objects.append(draw_hand)
 
+        # Calculates all the collisions of all the balls with all the balls
         for ball, other_ball in itertools.combinations(b_balls,2):
             if ball.collide(other_ball):
                 ball.ellasticCollisionUpdate(other_ball)
 
+        # Caluclates all the collisions of all the balls with the walls
         for ball in b_balls:
             b_table.wallCollisionUpdate(ball)
             ball.updatePos()
 
         objects += b_balls
     else:
+        # Stop the game!
         for is_new, hand, draw_hand in zip(new_frame, hands, draw_hands):
             if is_new and hand.is_right:
                 draw_hand.setHand(hand,iBox)

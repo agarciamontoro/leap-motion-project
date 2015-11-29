@@ -6,16 +6,19 @@ from operator import add, sub
 
 from shapely.geometry import LineString, Point
 
-# Distance
+# Calculates the distance of two positions
 def distance(pos1,pos2):
     return math.sqrt(sum([(pos2[i]-pos1[i])**2 for i in range(3)]))
 
+# Calculates the product of two vectors
 def dotProduct(p,q):
     return sum([p[i]*q[i] for i in range(3)])
 
+# Calculates the squared norm
 def squaredNorm(p):
     return dotProduct(p,p)
 
+# Calculates the polar coordinates
 def toPolar(pos):
     module = math.sqrt(sum([pos[i]**2 for i in range(2)]))
     angle = math.atan2(pos[1], pos[0])
@@ -41,47 +44,59 @@ class BilliardBall(Ball):
 
         Ball.__init__(self, color, self.radius, self.coord)
 
+    # Updates ball position attending to the friction
     def updatePos(self):
         self.vel = [self.vel[i]*COF for i in range(3)]
         self.coord = map(add,self.coord,self.vel)
 
+    # Changes velocity to polar coordinates
     def velToPolar(self):
         return toPolar([self.vel[0],self.vel[2]])
 
+    # Changes position to polar coordinates
     def posToPolar(self):
         return toPolar([self.pos[0],self.pos[2]])
 
+    # Provides the state of the ball (Moving = True)
     def isMoving(self):
         vel_module = self.velToPolar()[0]
         return vel_module > 0.
 
+    # Calculates if its ball is colliding with other ball
     def collide(self, other_ball):
+        # Present and future positions of both balls
         p1 = (self.coord[0], self.coord[2])
         q1 = (self.coord[0] + COF*self.vel[0], self.coord[2] + COF*self.vel[2])
 
         p2 = (other_ball.coord[0], other_ball.coord[2])
         q2 = (other_ball.coord[0] + COF*other_ball.vel[0], other_ball.coord[2] + COF*other_ball.vel[2])
 
+        # Both balls are moving
         if self.isMoving() and other_ball.isMoving():
             segment1 = LineString([p1,q1])
             segment2 = LineString([p2,q2])
             return segment1.distance(segment2) <= self.radius+other_ball.radius
 
+        # Only this ball is moving
         elif self.isMoving():
             segment1 = LineString([p1,q1])
             return segment1.distance(Point(p2)) <= self.radius+other_ball.radius
 
+        #Only the other ball is moving
         elif other_ball.isMoving():
             segment2 = LineString([p2,q2])
             return segment2.distance(Point(p1)) <= self.radius+other_ball.radius
 
         return False
 
+    # Better method for calculate the collisions
     def ellasticCollisionUpdate(self, other_ball):
         #self.vel, other_ball.vel = COF*other_ball.vel, COF*self.vel
+        # Velocity of both balls
         v1 = self.vel
         v2 = other_ball.vel
 
+        # Position of both balls
         x1 = self.coord
         x2 = other_ball.coord
 
@@ -103,6 +118,7 @@ class BilliardBall(Ball):
     def deactivateHighlight(self):
         self.radius = self.first_radius
 
+    # Creates the effect of highlight in the ball
     def highlight(self):
         if self.highlighted:
             self.frame_tick = (self.frame_tick + 5)%360
@@ -127,6 +143,7 @@ class BilliardTable:
 
         self.table = Quad(corners, billiard_green)
 
+    # Calculates the balls collisions with the table
     def wallCollisionUpdate(self,ball):
         speed_module = ball.velToPolar()[0]
         dist_x = self.width/2.  - abs(ball.coord[0])

@@ -27,12 +27,16 @@ class Finger:
         ball_ = primitives.Ball(self.color,finger.bone(3).width/4,self.leap_to_world(finger.bone(3).next_joint, iBox))
         self.knuckles.append(ball_)
 
+    # Changes the coordinates privided by the Leap for a better visualization
+    # This code is provided by Leap-Motion Documentation
+    # We have to change differents values for our problem adjustation
     def leap_to_world(self, leap_point, iBox):
 	    leap_point.z *= 1.0; #right-hand to left-hand rule
 	    normalized = iBox.normalize_point(leap_point, False)
 	    normalized = normalized #+ Leap.Vector(-0.5, 0, -0.5); #recenter origin
 	    return normalized * 200; #scale
 
+    # Draws the finger
     def draw(self):
         for knuckle in self.knuckles:
             knuckle.draw()
@@ -59,6 +63,7 @@ class Hand:
             draw_finger = Finger(finger,self.color,self.iBox)
             self.fingers.append(draw_finger)
 
+    # Provides the position normalized attending to the dimensions of the window
     def get2DwindowPosition(self):
         window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
         app_width = window_size[0]
@@ -72,6 +77,7 @@ class Hand:
 
         return([app_x,app_y])
 
+    # Draws the hand
     def draw(self):
         glPushMatrix()
         glTranslatef(self.hand.palm_position[0], self.hand.palm_position[1], self.hand.palm_position[2])

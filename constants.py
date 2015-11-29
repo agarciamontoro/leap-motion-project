@@ -1,16 +1,21 @@
 from enum import Enum
 
+# Friction coefficient
 COF = 0.99
 
+# Radios of all the balls
 BALL_RADIUS = 10.
 
+# Force constant
 FORCE_CONSTANT = 15.
 
+# Glut resources
 SLICES = 50
 STACKS = 50
 
 BUTTON_TOL = 10.
 
+# Colors
 steel_blue   = [0.27,0.5,0.7]
 steel_red    = [1.0,0.32,0.32]
 steel_yellow = [1.0, 0.75, 0.03]

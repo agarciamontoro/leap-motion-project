@@ -23,7 +23,6 @@ class SampleListener(Leap.Listener):
 		print "Exited"
 
 	def getHands(self):
-		#self.normalize_everything()
 		return self.new_frame, self.hands, self.iBox
 
 	def tutorialFinished(self):
@@ -32,6 +31,7 @@ class SampleListener(Leap.Listener):
 	def tutorialState(self):
 		return current_step
 
+	# On each frame, it changes his state values
 	def on_frame(self, controller):
 		frame = controller.frame()
 		self.iBox = frame.interaction_box
