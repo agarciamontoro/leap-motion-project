@@ -1,5 +1,5 @@
 import primitives
-from billiardBall import BilliardBall, BilliardTable
+from billiard import BilliardBall, BilliardTable
 from constants import *
 
 import Leap, time, sys

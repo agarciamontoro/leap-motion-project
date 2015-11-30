@@ -1,5 +1,5 @@
 from primitives import Line
-from billiardBall import *
+from billiard import *
 
 import math
 
