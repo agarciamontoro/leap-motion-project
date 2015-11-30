@@ -139,9 +139,9 @@ class BilliardTable:
         bottom_right_corner = [center[0] + half_width, -0.01, center[0] - half_length]
         bottom_left_corner  = [center[0] - half_width, -0.01, center[0] - half_length]
 
-        corners = [top_left_corner, bottom_left_corner, bottom_right_corner, top_right_corner]
+        self.corners = [top_left_corner, bottom_left_corner, bottom_right_corner, top_right_corner]
 
-        self.table = Quad(corners, billiard_green)
+        self.table = Quad(self.corners, billiard_green)
 
     # Calculates the balls collisions with the table
     def wallCollisionUpdate(self,ball):
@@ -153,6 +153,13 @@ class BilliardTable:
             ball.vel[0] = -ball.vel[0]
         if dist_y <= ball.radius:
             ball.vel[2] = -ball.vel[2]
+
+    def isBallInPocket(self,ball):
+        if ball.type is not BBallType.whitey and ball.type is not BBallType.black:
+            for corner in self.corners:
+                if distance(ball.coord,corner) <= 2*ball.radius:
+                    return True
+        return False
 
 
     def draw(self):
