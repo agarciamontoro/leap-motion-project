@@ -30,7 +30,7 @@ If the Python OpenGL library is not in your distribution repository, use the pac
 ### Arch Linux example
 Arch Linux has all required packages in the official -and AUR- repositories. To install Python and OpenGL, execute the following order:
 ```
-$> pacman -S python2 python2-opengl python2-pygame
+$> pacman -S python2 python2-opengl python2-pygame python2-pillow python2-enum34 python2-shapely
 ```
 
 [leap-motion-driver](https://aur.archlinux.org/packages/leap-motion-driver) and [leap-motion-sdk](https://aur.archlinux.org/packages/leap-motion-sdk) packages are not in the official repository but in the Arch User Repository. To install them, just build the packages manually or use a package manager like `pacaur`:
@@ -52,7 +52,7 @@ install -D -m644 "${pkgdir}/usr/lib/Leap/LeapPython.so" "${pkgdir}/usr/lib/pytho
 ```
 
 ## Execution and usage
-Connect the Leap Motion, start the daemon -with `sudo leapd`-, and execute the following order:
+Connect the Leap Motion, start the daemon -with `sudo leapd` or `sudo systemctl start leapd`-, and execute the following order:
 ```
 $> python2 main.py
 ```
@@ -101,8 +101,43 @@ When the program was finished, we made a simple tutorial that explained how to u
 
 The gesture was easily implemented with the Gesture interface of the API.
 
+### Final implemented solution
+
+Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tenía muchísimos impedimentos para ser ampliado, con lo cual decidimos pasar a un diseño basado en distintas clases:
+
+- billiardBall.py
+- constants.py
+- forceLine.py
+- game.py
+- gestures.py
+- GUI.py
+- hand.py
+- leapDriver.py
+- main.py
+- menu.py
+- primitives.py
+
+De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o si nosotros o alguien desea crear algún otro, podrá reutilizar muchísimo código usando alguna de éstas clases.
+
+En contrapartida al objetivo principal del desarrollo *las chapas*, cambiamos nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació en parte porque ya sabíamos puntar esferas de manera correcta (cosa que más tarde tuvimos que cambiar de todas maneras), y el cual nos parecía un problema más comercial e interesante.
+
+#### Breve descripción del problema
+En el juego del billar, actúan diferentes fuerzas de la naturaleza:
+
+- Rozamiento
+- Cinética
+
+Por ello, para poder hacer un billar cercano a la realidad, necesitabamos simular todas esas fuerzas. Para ello se ha simplifaco el problema a dos dimensiones, usando para la simulación de los choques y apliques de fuerza, la *elastic collision*.
+
+Por otra parte, para hacer que la ecuación que describe esta fuerza, fuera más sencilla, tuvimos que considerar a todas las bolas con masa 1.
+
+
+
+
+
 ## References
 * **GUI.py**: the basic OpenGL functions -init, camera, projection and view settings- in this file are adapted from this [@analca3](https://github.com/analca3)'s repository: [Triodo de Frenet](https://github.com/analca3/TriedroFrenet_Evoluta).
 * **LeapDriver.py**: the basic structure of this file is taken from the [Hello World tutorial](https://developer.leapmotion.com/documentation/python/devguide/Sample_Tutorial.html).
+* Some information about [Elastic collision](https://en.wikipedia.org/wiki/Elastic_collision)
 * **Billiard cloth**: the texture used is taken from [](http://www.photos-public-domain.com/2012/08/14/kelly-green-microfiber-cloth-fabric-texture/)
 * **Icons**: All icons have Free or CC licenses. See the [gear](https://www.iconfinder.com/icons/103170/gear_preferences_settings_tools_icon#size=128), [arrow](https://www.iconfinder.com/icons/647889/arrow_back_direction_move_previous_icon#size=128), [cross](https://www.iconfinder.com/icons/226589/circle_cross_icon#size=128) and [hand](https://www.iconfinder.com/icons/446303/finger_gesture_hand_interactive_scroll_swipe_tap_icon#size=128) pages for more information.
