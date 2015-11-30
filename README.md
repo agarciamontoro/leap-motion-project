@@ -102,7 +102,7 @@ The gesture was easily implemented with the Gesture interface of the API.
 
 ### Final implemented solution
 
-Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tenía muchísimos impedimentos para ser ampliado, con lo cual decidimos pasar a un diseño basado en distintos archivos y varias clases, los archivos son:
+Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tendría demasiados impedimentos para ser ampliado y mantenido, con lo cual decidimos pasar a un diseño basado en más archivos y varias clases. Los archivos son:
 
 - [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
 - [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
@@ -116,21 +116,19 @@ Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño
 - [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
 - [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
 
-De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o si nosotros o alguien desea crear algún otro, podrá reutilizar muchísimo código usando alguna de éstas clases o archivos.
+De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o nosotros u otras personas desean crear algún otro, podrán basarse en parte del código aquí desarrollado.
 
-Las contrapartidas del objetivo principal del desarrollo *las chapas*, nos hizo decantarnos por cambiar nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació en parte porque ya sabíamos pintar esferas de manera correcta (cosa que más tarde tuvimos que cambiar de todas maneras), y el *billar* nos parecía un problema más comercial e interesante.
+Las contrapartidas del objetivo principal del desarrollo *las chapas*, nos hizo decantarnos por cambiar nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació de la dificultad de dibujar una chapa y de que no es un juego con unas reglas tan establecidas cómo es el caso del billar. Además de que el *billar* por ser un juego mundialmente conocido, presentaba más facilidad para ser aceptado por la sociedad que el juego de *las chapas*. Aún así ambos juegos tienen muchas similitudes, con lo que llegar de uno al otro no presenta un gran reto.
 
 #### Breve descripción del problema (Billar)
-En el juego del billar, actúan diferentes fuerzas de la naturaleza:
+En el juego del billar, actúan principalmente 2 fuerzas de la naturaleza el **rozamiento** y la **cinética**:
 
-- Rozamiento
-- Cinética
+Por ello, para conseguir un billar cercano a la realidad, necesitabamos simular todas esas fuerzas. Para ello se ha hecho simplifación de todas las fuerzas actuantes en el problema, limitando la dimensión de éstas a 2.
+Para la simulación de los choques, apliques de fuerzas y su consiguiente resultado se ha usado para el sistema de simulación *elastic collision*, en cambio para la simulación del rozamiento se ha establecido un coeficiente de rozamiento, y en cada frame, ese coeficiente, va alterando la velocidad *cinética* de todas las bolas en movimiento.
 
-Por ello, para poder hacer un billar cercano a la realidad, necesitabamos simular todas esas fuerzas. Para ello se ha simplifaco el problema a dos dimensiones, usando para la simulación de los choques y apliques de fuerza, la *elastic collision*.
+Debido a la complejidad de la ecuación que describen la *elastic collision*, se han considerado las masas de todas las bolas 1, obteniendo así una ecuación más fácil, sin alterar demasiado la realidad de la simulación
 
-Por otra parte, para hacer que la ecuación que describe esta fuerza, fuera más sencilla, tuvimos que considerar a todas las bolas con masa 1.
-
-Volviendo a temas de la implementación. Como hemos comentado anteriormente optamos por un diseño basado en clases. A continuación se va a hacer una breve descripción de cada una de ellas.
+Volviendo a la implementación. Como hemos comentado anteriormente hemos optado por un diseño basado en varias archivos y clases. A continuación se va a hacer una breve descripción del contenido de cada uno de los archivos, y de las clases existentes en ellos.
 
 #### constants.py
 Éste archivo tan solo contiene algunas de las constantes que se van a usar a lo largo de todo el proyecto
@@ -160,9 +158,6 @@ Este archivo tal y como su nombre indica, implementa todo lo referente al juego.
 Como primera tarea, tiene la de establecer las posicones de las bolas. A continuación inicializa el menú. Y durante el resto de la ejecución se ocupa de la lógica principal del juego, haciendo uso de las distintas clases descritas anteriormente.
 #### main.py
 Este archivo se limita a inicializar los distintos objetos descritos anteriormente para que comience el juego.
-
-
-
 
 ## References
 * **GUI.py**: the basic OpenGL functions -init, camera, projection and view settings- in this file are adapted from this [@analca3](https://github.com/analca3)'s repository: [Triodo de Frenet](https://github.com/analca3/TriedroFrenet_Evoluta).
