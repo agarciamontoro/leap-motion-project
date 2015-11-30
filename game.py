@@ -4,7 +4,7 @@ from constants import *
 
 import Leap, time, sys
 
-import LeapDriver
+import leapDriver
 import hand
 import gestures
 from forceLine import ForceLine
