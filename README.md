@@ -102,25 +102,25 @@ The gesture was easily implemented with the Gesture interface of the API.
 
 ### Final implemented solution
 
-Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tenía muchísimos impedimentos para ser ampliado, con lo cual decidimos pasar a un diseño basado en distintas clases:
+Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tenía muchísimos impedimentos para ser ampliado, con lo cual decidimos pasar a un diseño basado en distintos archivos y varias clases, los archivos son:
 
-- billiardBall.py
-- constants.py
-- forceLine.py
-- game.py
-- gestures.py
-- GUI.py
-- hand.py
-- leapDriver.py
-- main.py
-- menu.py
-- primitives.py
+- [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
+- [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
+- [forceLine.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/forceLine.py)
+- [game.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/game.py)
+- [gestures.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/gestures.py)
+- [GUI.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/GUI.py)
+- [hand.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/hand.py)
+- [leapDriver.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/leapDriver.py)
+- [main.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/main.py)
+- [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
+- [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
 
-De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o si nosotros o alguien desea crear algún otro, podrá reutilizar muchísimo código usando alguna de éstas clases.
+De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o si nosotros o alguien desea crear algún otro, podrá reutilizar muchísimo código usando alguna de éstas clases o archivos.
 
-En contrapartida al objetivo principal del desarrollo *las chapas*, cambiamos nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació en parte porque ya sabíamos puntar esferas de manera correcta (cosa que más tarde tuvimos que cambiar de todas maneras), y el cual nos parecía un problema más comercial e interesante.
+Las contrapartidas del objetivo principal del desarrollo *las chapas*, nos hizo decantarnos por cambiar nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació en parte porque ya sabíamos pintar esferas de manera correcta (cosa que más tarde tuvimos que cambiar de todas maneras), y el *billar* nos parecía un problema más comercial e interesante.
 
-#### Breve descripción del problema
+#### Breve descripción del problema (Billar)
 En el juego del billar, actúan diferentes fuerzas de la naturaleza:
 
 - Rozamiento
@@ -130,6 +130,36 @@ Por ello, para poder hacer un billar cercano a la realidad, necesitabamos simula
 
 Por otra parte, para hacer que la ecuación que describe esta fuerza, fuera más sencilla, tuvimos que considerar a todas las bolas con masa 1.
 
+Volviendo a temas de la implementación. Como hemos comentado anteriormente optamos por un diseño basado en clases. A continuación se va a hacer una breve descripción de cada una de ellas.
+
+#### constants.py
+Éste archivo tan solo contiene algunas de las constantes que se van a usar a lo largo de todo el proyecto
+#### LeapDriver.py
+Éste archivo tan solo contiene la clase **SampleListener** implementada tal y como se recomienda en la documentación del Leap-Motion con tan solo algunos cambios menores para adaptarlo a nuestro programa.
+#### gestures.py
+Éste archivo tan solo contiene el control de los distintos gestos que se desea detectar.
+#### primitives.py
+En este archivo podemos encontrar las clases **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, a continuación las comentarmeos brevemente.
+
+- **Image** Nos permite dibujar una imagen en nuestro mundo virtual de manera que no seamos conscientes que estamos en un mundo 3D.
+- **Line** Nos permite dibujar la línea que une 2 puntos en el espacio 3D
+- **Ball** Nos permite dibujar una esfera en el punto deseado, con radio y calidad deseados
+- **Quad** Nos permite dibujar el *quad* que forman un conjunto de puntos
+- **Circle** Nos permite dibujar un disco en el punto deseado, con radio y calidad deseados
+- **Loader**
+- **Button**
+
+#### hand.py
+En este archivo podemos encontrar las clases **Hand** y **Finger**. El principal objetivo de ambas es el correcto dibujado de éstas. Como es natural, la mano (**Hand**) contendrá en su interior los distintos dedos (**Fingers**). **Fingers** en cambio contiene a partir de la identificación mediante el uso de los datos proporcionados por el Leap-Motion, los puntos necesarios para crear las falanges y los nudillos, que simplemente son objetos **Ball** y **Line**.
+#### forceLine.py
+En este archivo podemos encontrar la clase **ForceLine**. El principal objetivo de esta clase es el obtener los medios para poder pintar e identificar la fuerza con la que se desea golpear a la bola blanca.
+#### billiard.py
+En este archivo podemos encontrar las clases **BilliardBall** y **BilliardTable**. El principal objetivo de ambas es encapsular las propiedades físicas comentadas anteriormente (Colisiones y Rozamiento), siendo en el caso de **BilliardBall** una subclase de **Ball**.
+#### game.py
+Este archivo tal y como su nombre indica, implementa todo lo referente al juego. Posición inicial de las bolas, colores, fuerzas, etc.
+Como primera tarea, tiene la de establecer las posicones de las bolas. A continuación inicializa el menú. Y durante el resto de la ejecución se ocupa de la lógica principal del juego, haciendo uso de las distintas clases descritas anteriormente.
+#### main.py
+Este archivo se limita a inicializar los distintos objetos descritos anteriormente para que comience el juego.
 
 
 
