@@ -1,10 +1,10 @@
 import primitives
-from billiardBall import BilliardBall, BilliardTable
+from billiard import BilliardBall, BilliardTable
 from constants import *
 
-import Leap, time
+import Leap, time, sys
 
-import LeapDriver
+import leapDriver
 import hand
 import gestures
 from forceLine import ForceLine
@@ -20,8 +20,34 @@ time_margin = 0.07
 def distance(pos1,pos2):
     return math.sqrt(sum([(pos2[i]-pos1[i])**2 for i in range(3)]))
 
-def doubleRadius():
-    print("YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY")
+def setBallsToColors(color_1, color_2):
+    for ball in b_balls:
+        if ball.type is not BBallType.whitey and ball.type is not BBallType.black:
+            if ball.type is BBallType.striped:
+                ball.color = color_1
+            else:
+                ball.color = color_2
+
+def setBallsToRedGreen():
+    setBallsToColors(steel_red, steel_green)
+
+def setBallsToOrangeYellow():
+    setBallsToColors(steel_orange, steel_yellow)
+
+def setHandToRed():
+    for hand in draw_hands:
+        hand.color = steel_rer
+
+def setHandToGreen():
+    for hand in draw_hands:
+        hand.color = steel_green
+
+def disableMenu():
+    menu.disable()
+
+def quitGame():
+    print("Bye!")
+    sys.exit()
 
 # Initializes the game
 def initGame(listener):
@@ -72,12 +98,35 @@ def initGame(listener):
 
     prev_num_hands = 0
 
-    option_button = ActionButton([[110,120],[160,170]], doubleRadius)
-    option_screen = Screen("./Screenshots/02.png", [option_button])
+    #Screens
+    start_screen = Screen("./Screenshots/menu01_start.png")#, [to_opt_button, quit_menu_button, quit_game_button])
+    general_opt_screen = Screen("./Screenshots/menu02_options.png")#, [to_ball_opt_button, to_hand_opt_button, back_to_first_button])
+    ball_opt_screen = Screen("./Screenshots/menu03_balls.png")#, [red_ball_button, orange_ball_button, back_to_opt_button])
+    hand_opt_screen = Screen("./Screenshots/menu04_hands.png")#, [red_hand_button, green_hand_button, back_to_opt_button])
 
-    navigate_button = NavigationalButton([[10,20], [60,70]], option_screen)
+    #First screen buttons
+    to_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], general_opt_screen)
+    quit_menu_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], disableMenu)
+    quit_game_button = ActionButton([[1024-661,800-749],[1024-363,800-451]], quitGame)
 
-    start_screen = Screen("./Screenshots/01.png", [navigate_button])
+    #General options screen buttons
+    to_ball_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], ball_opt_screen)
+    to_hand_opt_button = NavigationalButton([[1024-465,800-475],[1024-47,800-57]], hand_opt_screen)
+    back_to_first_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], start_screen)
+
+    #Ball options screen buttons
+    orange_ball_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setBallsToOrangeYellow)
+    red_ball_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setBallsToRedGreen)
+    back_to_opt_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], general_opt_screen)
+
+    #Hand options screen buttons
+    red_hand_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setHandToRed)
+    green_hand_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setHandToGreen)
+
+    start_screen.buttons = [to_opt_button, quit_menu_button, quit_game_button]
+    general_opt_screen.buttons = [to_ball_opt_button, to_hand_opt_button, back_to_first_button]
+    ball_opt_screen.buttons = [red_ball_button, orange_ball_button, back_to_opt_button]
+    hand_opt_screen.buttons = [red_hand_button, green_hand_button, back_to_opt_button]
 
     menu = Menu(start_screen,loader)
 
@@ -120,19 +169,21 @@ def processFrame():
             elif time.time() - prev_time < time_margin:
                 objects.append(draw_hand)
 
+        b_balls[:] = [ball for ball in b_balls if not b_table.isBallInPocket(ball)]
+
         # Calculates all the collisions of all the balls with all the balls
         for ball, other_ball in itertools.combinations(b_balls,2):
             if ball.collide(other_ball):
                 ball.ellasticCollisionUpdate(other_ball)
 
-        # Caluclates all the collisions of all the balls with the walls
+        # Calculates all the collisions of all the balls with the walls
         for ball in b_balls:
             b_table.wallCollisionUpdate(ball)
             ball.updatePos()
 
         objects += b_balls
     else:
-        # Stop the game!
+        # Pause the game!
         for is_new, hand, draw_hand in zip(new_frame, hands, draw_hands):
             if is_new and hand.is_right:
                 draw_hand.setHand(hand,iBox)

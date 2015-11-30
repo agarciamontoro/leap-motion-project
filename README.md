@@ -15,7 +15,6 @@ The project is coded in Python, using the Leap Motion driver and the OpenGL libr
 2. **Leap-Motion-Driver**
 3. **Leap-Motion-SDK**
 4. **Python2-OpenGL**
-5. **Python2-pygame**
 6. **Python2-pillow**
 7. **Python2-enum34**
 8. **Python2-shapely**

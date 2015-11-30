@@ -15,7 +15,7 @@ from OpenGL.GL.ARB.multisample import GL_MULTISAMPLE_ARB
 
 import sys, time, math, threading
 
-import LeapDriver, game
+import leapDriver, game
 
 from constants import *
 

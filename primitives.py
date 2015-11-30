@@ -17,7 +17,7 @@ from operator import add
 
 class Image:
     def __init__(self, img_file_name):
-        image = PIL.Image.open(img_file_name)
+        image = PIL.Image.open(img_file_name).convert("RGBA")
         self.raw_data = image.tobytes("raw", "RGBA", 0, -1)
         self.width, self.height = image.size
 
@@ -199,7 +199,7 @@ class Circle:
 
 class Loader:
     loader_radius = 55
-    loader_width = 15
+    loader_width = 25
 
     def __init__(self, center=[0.0,0.0], color=steel_red):
         self.center = center
@@ -221,14 +221,14 @@ class Loader:
 
     def load(self):
         if self.loading:
-            self.load_perc = self.load_perc + 2
+            self.load_perc = self.load_perc + 1
             return self.load_perc >= 100
         return True
 
     def draw(self):
         if self.loading:
             for tick in range(self.load_perc):
-                radius = self.loader_width * tick / 100.
+                radius = 15 + self.loader_width * tick / 100.
 
                 angle  = tick*2.0*math.pi/100.0
                 center_x = self.loader_radius * math.cos(angle) + self.center[0]
@@ -248,8 +248,10 @@ class Button(object):
 
     def getCenter(self):
         middle_point = map(add,self.rect[0],self.rect[1])
-
         return [coord/2 for coord in middle_point]
+
+    def getRadius(self):
+        return (self.rect[1][0]-self.rect[0][0])/2.
 
     def draw(self):
         width = self.rect[1][0] - self.rect[0][0]

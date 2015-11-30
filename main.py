@@ -5,13 +5,13 @@ from __future__ import print_function
 
 import Leap, sys, time
 
-import LeapDriver, game
+import leapDriver, game
 import GUI
 from constants import *
 
 def main(arguments):
     # Create sample listener and controller
-    listener = LeapDriver.SampleListener()
+    listener = leapDriver.SampleListener()
     controller = Leap.Controller()
 
     # Let the sample listener receive events from the controller
