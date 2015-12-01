@@ -139,28 +139,30 @@ This structure derives in a frame-based animation, and not in a time-based anima
 
 Let's see the files and its classes:
 
-##### constants.py
-Éste archivo tan solo contiene algunas de las constantes que se van a usar a lo largo de todo el proyecto
-##### LeapDriver.py
-Éste archivo tan solo contiene la clase **SampleListener** implementada tal y como se recomienda en la documentación del Leap-Motion con tan solo algunos cambios menores para adaptarlo a nuestro programa.
-##### gestures.py
-Éste archivo tan solo contiene el control de los distintos gestos que se desea detectar.
-##### primitives.py
-En este archivo podemos encontrar las clases **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, a continuación las comentarmeos brevemente.
+#### constant.py
+This file only contains some constant that will be used across the project.
 
-- **Image** Nos permite dibujar una imagen en nuestro mundo virtual de manera que no seamos conscientes que estamos en un mundo 3D.
-- **Line** Nos permite dibujar la línea que une 2 puntos en el espacio 3D
-- **Ball** Nos permite dibujar una esfera en el punto deseado, con radio y calidad deseados
-- **Quad** Nos permite dibujar el *quad* que forman un conjunto de puntos
-- **Circle** Nos permite dibujar un disco en el punto deseado, con radio y calidad deseados
-- **Loader**
+#### leapDriver.py
+This file only contains the class **SampleListener** implemented as recommends in the documentation the Leap-Motion with only some little changes for adapt it to our program.
+
+#### gestures.py
+This file only contains the control of all the gestures that we wish to detect
+
+#### primitives.py
+This file contains the classes **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, now it comes to be explain.
+
+- **Image** permits draw an image in our virtual world.
+- **Line** permits draw a line that join 2 points in the 3D space.
+- **Ball** permits draw a sphere in the point, radius and quality desired.
+- **Quad** permits draw the *quad* that creates a set of points.
+- **Circle** permits draw a disc in the point, radius and quality desired.
+- **Loader **
 - **Button**
 
-##### hand.py
-En este archivo podemos encontrar las clases **Hand** y **Finger**. El principal objetivo de ambas es el correcto dibujado de éstas. Como es natural, la mano (**Hand**) contendrá en su interior los distintos dedos (**Fingers**). **Fingers** en cambio contiene a partir de la identificación mediante el uso de los datos proporcionados por el Leap-Motion, los puntos necesarios para crear las falanges y los nudillos, que simplemente son objetos **Ball** y **Line**.
-##### forceLine.py
-En este archivo podemos encontrar la clase **ForceLine**. El principal objetivo de esta clase es el obtener los medios para poder pintar e identificar la fuerza con la que se desea golpear a la bola blanca.
-##### billiard.py
+####hand.py
+In this file we can find the classes **Hand** and **Finger**. The principal objective that both is the draw of them. As natural, the hand contains several fingers. **Fingers** in the other hand contains with the identification using data provides by Leap-Motion, the needed points for the phalanx and knucles, tthat only are **Ball** and **Line**
+
+#### billiard.py
 En este archivo podemos encontrar las clases **BilliardBall** y **BilliardTable**. El principal objetivo de ambas es encapsular las propiedades físicas comentadas anteriormente (Colisiones y Rozamiento), siendo en el caso de **BilliardBall** una subclase de **Ball**.
 ##### menu.py
 This file contains the necessary classes to implement a menu, which consists of a screen (basically, an image) and an arbitrary number of buttons. The classes in this file are the following:
@@ -168,7 +170,6 @@ This file contains the necessary classes to implement a menu, which consists of 
 * **ActionButton**: Class implementing a button whose objective is to execute an arbitrary function when pressed.
 * **Screen**: Class implementing the images that form the menu. A screen is formed by an image and a list of buttons in the image.
 * **Menu**: Main class, that uses all the classes before to implement an easy-to-use menu. A menu consists only of a start screen and a loader -an auxiliary object to manage the button *clicks*-. The navigation between the screens is transparent to the menu, as it is easily managed by the navigational buttons.
-
 
 ##### game.py
 Este archivo tal y como su nombre indica, implementa todo lo referente al juego. Posición inicial de las bolas, colores, fuerzas, etc.
