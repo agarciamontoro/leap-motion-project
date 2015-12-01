@@ -121,6 +121,20 @@ Thanks to this, if in the future we want to continue the development of this gam
 
 In the opposite the principal objective of *las chapas* development, we changed our principal objective deciding for develop the billiard game. This decision born because of the difficultyness of draw a cap and the game of *las chapas* didn't have a hardly defenited rules than the billiard. Also because of the world know of the billiard, it shows more easyness for being accepted by the society than the game of *las chapas*. Althought both games are quite similar. 
 
+#### Little description of the billiard problem
+In the billiard, there are two principal nature forces the **rubbing** and the **kinetic** velocity.
+
+Because of this, for archieve a realistic billiard, we need to simulate every forces. For this it did a simplification of every forces that exists in the problem, limitin the dimension of there to two. For the simulation of the collisions, and forces apllied and his expected result it had used for the simulation system the *elastic collision*, on the other hand for the simulation of the *rubbing* it has stablished a **rub** coefficient, and in each frame, it alters the *kinectic* velocity for every balls in movements.
+
+Due to the complexity of the ecuation that describes the *elastic collision*:
+
+![Elastic collision ecuation](https://upload.wikimedia.org/math/b/0/9/b09d23456a39b81126c36844fdc13582.png)
+
+It had considered every mass ball to 1, obtaining an ecuation more easier because of the anulation of the first element of the numerator of both, unaltering in great measure the reality of the simulation.
+
+Returning tu the implementation. As we comment previously we opted for a desing based int different classes and files. Now it has to do a little description of every files and classes int them.
+
+
 
 Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tendría demasiados impedimentos para ser ampliado y mantenido, con lo cual decidimos pasar a un diseño basado en más archivos y varias clases. Los archivos son:
 
