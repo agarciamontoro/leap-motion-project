@@ -113,7 +113,7 @@ For achieving a realistic billiard, we need to simulate these physics. As all th
 
 ![Elastic collision ecuation](https://upload.wikimedia.org/math/3/a/7/3a70e57f4a5cc0e5e0e11be153aa4b10.png)
 
-These equations can be simplified considering all ball masses equal to 1. This consideration does not affect the realism of the game, as all the billiard balls have the same mass and, measuring in the appopriate units, can be seen equal to 1.
+These equations can be simplified considering all ball masses equal to 1. This consideration does not affect the realism of the game, as all the billiard balls have the same mass and, measuring in the appropriate units, can be seen equal to 1.
 
 On the other hand, for the simulation of the *friction*, just a simple **friction** coefficient has been considered. This coefficient slows down, in each frame, the module of the velocity of every ball.
 
@@ -140,26 +140,26 @@ This structure derives in a frame-based animation, and not in a time-based anima
 Let's see the files and its classes:
 
 #### constant.py
-This file only contains some constant that will be used across the project.
+This file contains just the constants that will be used across the project.
 
 #### leapDriver.py
-This file only contains the class **SampleListener** implemented as recommends in the documentation the Leap-Motion with only some little changes for adapt it to our program.
+This file contains the **SampleListener** class, implemented as recommended in the documentation the Leap-Motion, with some little changes for adapting it to our program.
 
 #### gestures.py
-This file only contains the control of all the gestures that we wish to detect
+This file contains the control of all the gestures that we need to detect.
 
 #### primitives.py
-This file contains the classes **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, now it comes to be explain.
+This file contains the basic drawing primitives:
 
-- **Image** permits draw an image in our virtual world.
-- **Line** permits draw a line that join 2 points in the 3D space.
-- **Ball** permits draw a sphere in the point, radius and quality desired.
-- **Quad** permits draw the *quad* that creates a set of points.
-- **Circle** permits draw a disc in the point, radius and quality desired.
-- **Loader **
-- **Button**
+- **Image**: it implements the drawing of a 2D image filling the window.
+- **Line**: it implements the drawing of a line that join 2 points in the 3D space.
+- **Ball**: it implements the drawing of a sphere given its center, radius and quality desired.
+- **Quad**: it implements the drawing of the *quad* that creates a set of points.
+- **Circle**: it implements the drawing of a 2D disc projected in the window given its center, radius and quality desired.
+- **Loader**: it implements the logic and drawing of a loader that is used when the menu buttons are pressed.
+- **Button**: it implements the basics of a button; i.e., the methods used both by navigational and action buttons.
 
-####hand.py
+#### hand.py
 In this file we can find the classes **Hand** and **Finger**. The principal objective that both is the draw of them. As natural, the hand contains several fingers. **Fingers** in the other hand contains with the identification using data provides by Leap-Motion, the needed points for the phalanx and knucles, tthat only are **Ball** and **Line**
 
 #### billiard.py
