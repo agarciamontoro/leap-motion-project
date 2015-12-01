@@ -65,7 +65,7 @@ def initGame(listener):
     corrector = 1.0
 
     # All the balls in the pool
-    b_whitey   = BilliardBall([triEdge,0],[-15.0,0.0], BBallType.whitey)
+    b_whitey   = BilliardBall([triEdge,0],[0.0,0.0], BBallType.whitey)
     # First row
     striped_9  = BilliardBall([-triEdge,0],[0.0,0.0], BBallType.striped, steel_red)
     # Second row
