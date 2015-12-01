@@ -110,14 +110,14 @@ def initGame(listener):
     prev_num_hands = 0
 
     #Tutorial screens
-    tutorial01_screen = Screen("./Screenshots/tutorial01.png")#, [to_02_button])
-    tutorial02_screen = Screen("./Screenshots/tutorial02.png")#, [to_03_button])
-    tutorial03_screen = Screen("./Screenshots/tutorial03.png")#, [to_04_button])
-    tutorial04_screen = Screen("./Screenshots/tutorial04.png")#, [to_05_button])
-    tutorial05_screen = Screen("./Screenshots/tutorial05.png")#, [to_06_button])
-    tutorial06_screen = Screen("./Screenshots/tutorial06.png")#, [to_07_button])
-    tutorial07_screen = Screen("./Screenshots/tutorial07.png")#, [to_08_button])
-    tutorial08_screen = Screen("./Screenshots/tutorial08.png")#, [start_button])
+    tutorial01_screen = Screen("./Screenshots/tutorial01.png")#, [tutorial_to_02_button])
+    tutorial02_screen = Screen("./Screenshots/tutorial02.png")#, [tutorial_to_03_button])
+    tutorial03_screen = Screen("./Screenshots/tutorial03.png")#, [tutorial_to_04_button])
+    tutorial04_screen = Screen("./Screenshots/tutorial04.png")#, [tutorial_to_05_button])
+    tutorial05_screen = Screen("./Screenshots/tutorial05.png")#, [tutorial_to_06_button])
+    tutorial06_screen = Screen("./Screenshots/tutorial06.png")#, [tutorial_to_07_button])
+    tutorial07_screen = Screen("./Screenshots/tutorial07.png")#, [tutorial_to_08_button])
+    tutorial08_screen = Screen("./Screenshots/tutorial08.png")#, [tutorial_start_button])
 
     #Tutorial buttons
     tutorial_to_02_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial02_screen)
