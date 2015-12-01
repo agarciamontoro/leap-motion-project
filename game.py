@@ -42,6 +42,9 @@ def setHandToGreen():
     for hand in draw_hands:
         hand.color = steel_green
 
+def disableTutorial():
+    tutorial.disable()
+
 def disableMenu():
     menu.disable()
 
@@ -49,9 +52,17 @@ def quitGame():
     print("Bye!")
     sys.exit()
 
+def processMenu(menu_object, new_frame, hands, draw_hands, iBox):
+    for is_new, hand, draw_hand in zip(new_frame, hands, draw_hands):
+        if is_new and hand.is_right:
+            draw_hand.setHand(hand,iBox)
+            pointer = draw_hand.get2DwindowPosition()
+            menu_object.process(pointer)
+    return menu_object
+
 # Initializes the game
 def initGame(listener):
-    global leap, last_data_time, tutorial, b_table, b_whitey, b_balls, loader, force_line, shoot_mode, prev_num_hands, menu, start_screen, option_screen
+    global leap, last_data_time, tutorial, b_table, b_whitey, b_balls, force_line, shoot_mode, prev_num_hands, menu
 
     leap = listener
     last_data_time = [time.time(), time.time()]
@@ -88,7 +99,6 @@ def initGame(listener):
     solid_5    = BilliardBall([-(triEdge+4*height),4*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_yellow)
 
     b_balls = [striped_9, striped_10, striped_11, striped_12, striped_13, striped_14, striped_15, solid_1, solid_2, solid_3, solid_4, solid_5, solid_6, solid_7, b_whitey, b_black]
-    #b_balls = [striped_1, striped_2, solid_1, solid_2, b_whitey, b_black]
 
     # Creates and activate the loader
     loader = primitives.Loader([200.0,200.0])
@@ -99,52 +109,94 @@ def initGame(listener):
 
     prev_num_hands = 0
 
-    #Screens
-    start_screen = Screen("./Screenshots/menu01_start.png")#, [to_opt_button, quit_menu_button, quit_game_button])
-    general_opt_screen = Screen("./Screenshots/menu02_options.png")#, [to_ball_opt_button, to_hand_opt_button, back_to_first_button])
-    ball_opt_screen = Screen("./Screenshots/menu03_balls.png")#, [red_ball_button, orange_ball_button, back_to_opt_button])
-    hand_opt_screen = Screen("./Screenshots/menu04_hands.png")#, [red_hand_button, green_hand_button, back_to_opt_button])
+    #Tutorial screens
+    tutorial01_screen = Screen("./Screenshots/tutorial01.png")#, [to_02_button])
+    tutorial02_screen = Screen("./Screenshots/tutorial02.png")#, [to_03_button])
+    tutorial03_screen = Screen("./Screenshots/tutorial03.png")#, [to_04_button])
+    tutorial04_screen = Screen("./Screenshots/tutorial04.png")#, [to_05_button])
+    tutorial05_screen = Screen("./Screenshots/tutorial05.png")#, [to_06_button])
+    tutorial06_screen = Screen("./Screenshots/tutorial06.png")#, [to_07_button])
+    tutorial07_screen = Screen("./Screenshots/tutorial07.png")#, [to_08_button])
+    tutorial08_screen = Screen("./Screenshots/tutorial08.png")#, [start_button])
+
+    #Tutorial buttons
+    tutorial_to_02_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial02_screen)
+    tutorial_to_03_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial03_screen)
+    tutorial_to_04_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial04_screen)
+    tutorial_to_05_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial05_screen)
+    tutorial_to_06_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial06_screen)
+    tutorial_to_07_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial07_screen)
+    tutorial_to_08_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], tutorial08_screen)
+    tutorial_start_button = ActionButton([[1024-661,800-749],[1024-363,800-451]], disableTutorial)
+
+    # Bind tutorial buttons to tutorial screens
+    tutorial01_screen.buttons = [tutorial_to_02_button]
+    tutorial02_screen.buttons = [tutorial_to_03_button]
+    tutorial03_screen.buttons = [tutorial_to_04_button]
+    tutorial04_screen.buttons = [tutorial_to_05_button]
+    tutorial05_screen.buttons = [tutorial_to_06_button]
+    tutorial06_screen.buttons = [tutorial_to_07_button]
+    tutorial07_screen.buttons = [tutorial_to_08_button]
+    tutorial08_screen.buttons = [tutorial_start_button]
+
+    #Menu screens
+    menu_start_screen = Screen("./Screenshots/menu01_start.png")#, [to_opt_button, quit_menu_button, quit_game_button])
+    menu_general_opt_screen = Screen("./Screenshots/menu02_options.png")#, [to_ball_opt_button, to_hand_opt_button, back_to_first_button])
+    menu_ball_opt_screen = Screen("./Screenshots/menu03_balls.png")#, [red_ball_button, orange_ball_button, back_to_opt_button])
+    menu_hand_opt_screen = Screen("./Screenshots/menu04_hands.png")#, [red_hand_button, green_hand_button, back_to_opt_button])
 
     #First screen buttons
-    to_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], general_opt_screen)
-    quit_menu_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], disableMenu)
-    quit_game_button = ActionButton([[1024-661,800-749],[1024-363,800-451]], quitGame)
+    menu_to_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], menu_general_opt_screen)
+    menu_quit_menu_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], disableMenu)
+    menu_quit_game_button = ActionButton([[1024-661,800-749],[1024-363,800-451]], quitGame)
 
     #General options screen buttons
-    to_ball_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], ball_opt_screen)
-    to_hand_opt_button = NavigationalButton([[1024-465,800-475],[1024-47,800-57]], hand_opt_screen)
-    back_to_first_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], start_screen)
+    menu_to_ball_opt_button = NavigationalButton([[1024-977,800-475],[1024-559,800-57]], menu_ball_opt_screen)
+    menu_to_hand_opt_button = NavigationalButton([[1024-465,800-475],[1024-47,800-57]], menu_hand_opt_screen)
+    menu_back_to_first_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], menu_start_screen)
 
     #Ball options screen buttons
-    orange_ball_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setBallsToOrangeYellow)
-    red_ball_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setBallsToRedGreen)
-    back_to_opt_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], general_opt_screen)
+    menu_orange_ball_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setBallsToOrangeYellow)
+    menu_red_ball_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setBallsToRedGreen)
+    menu_back_to_opt_button = NavigationalButton([[1024-661,800-749],[1024-363,800-451]], menu_general_opt_screen)
 
     #Hand options screen buttons
-    red_hand_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setHandToRed)
-    green_hand_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setHandToGreen)
+    menu_red_hand_button = ActionButton([[1024-977,800-475],[1024-559,800-57]], setHandToRed)
+    menu_green_hand_button = ActionButton([[1024-465,800-475],[1024-47,800-57]], setHandToGreen)
 
-    start_screen.buttons = [to_opt_button, quit_menu_button, quit_game_button]
-    general_opt_screen.buttons = [to_ball_opt_button, to_hand_opt_button, back_to_first_button]
-    ball_opt_screen.buttons = [red_ball_button, orange_ball_button, back_to_opt_button]
-    hand_opt_screen.buttons = [red_hand_button, green_hand_button, back_to_opt_button]
+    # Bind buttons to screens
+    menu_start_screen.buttons = [menu_to_opt_button, menu_quit_menu_button, menu_quit_game_button]
+    menu_general_opt_screen.buttons = [menu_to_ball_opt_button, menu_to_hand_opt_button, menu_back_to_first_button]
+    menu_ball_opt_screen.buttons = [menu_red_ball_button, menu_orange_ball_button, menu_back_to_opt_button]
+    menu_hand_opt_screen.buttons = [menu_red_hand_button, menu_green_hand_button, menu_back_to_opt_button]
 
-    menu = Menu(start_screen,loader)
+    tutorial = Menu(tutorial01_screen,loader)
+    tutorial.enable()
+
+    menu = Menu(menu_start_screen,loader)
 
 # Panacea method
 def processFrame():
     global shoot_mode, force, prev_num_hands
 
     new_frame, hands, iBox = leap.getHands()
-    objects = [menu, b_table]
+    objects = [b_table]
 
     if sum(new_frame) == 2 and prev_num_hands == 1:
         menu.swap()
     prev_num_hands = sum(new_frame)
 
-    # If the menu is not enabled.
+    # Learn how to play
+    if tutorial.enabled:
+        objects += [processMenu(tutorial, new_frame, hands, draw_hands, iBox)]
+
+    # Pause the game!
+    elif menu.enabled:
+        objects += [processMenu(menu, new_frame, hands, draw_hands, iBox)]
+
+    # If the menu and the tutorial are not enabled:
     # Let the pool begins! And may the odds be ever in your favor.
-    if not menu.enabled:
+    else:
         for is_new, hand, draw_hand, prev_time in zip(new_frame, hands, draw_hands, last_data_time):
             if is_new:
                 # If OK, activates the shoot mode
@@ -186,12 +238,6 @@ def processFrame():
             ball.updatePos()
 
         objects += b_balls
-    else:
-        # Pause the game!
-        for is_new, hand, draw_hand in zip(new_frame, hands, draw_hands):
-            if is_new and hand.is_right:
-                draw_hand.setHand(hand,iBox)
-                pointer = draw_hand.get2DwindowPosition()
-                menu.process(pointer)
+
 
     return objects

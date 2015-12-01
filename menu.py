@@ -78,6 +78,10 @@ class Menu:
         self.enabled = False
         self.reset()
 
+    # Enable the menu
+    def enable(self):
+        self.enabled = True
+
     # Main method: it receives a point in the screen and looks for the button
     # that is being pressed. It then waits for the loader to finish, and activates
     # the action button when required.
