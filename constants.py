@@ -1,7 +1,7 @@
 from enum import Enum
 
 # Friction coefficient
-COF = 0.99
+COF = 0.98
 
 # Radios of all the balls
 BALL_RADIUS = 10.

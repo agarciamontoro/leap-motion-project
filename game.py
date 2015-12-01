@@ -62,30 +62,30 @@ def initGame(listener):
     height = 22.36
     # The start of the triangle of balls
     triEdge = 60
-    corrector = 0.1
+    corrector = 1.0
 
     # All the balls in the pool
-    b_whitey   = BilliardBall([triEdge,0],[0.0,0.0], BBallType.whitey)
+    b_whitey   = BilliardBall([triEdge,0],[-15.0,0.0], BBallType.whitey)
     # First row
     striped_9  = BilliardBall([-triEdge,0],[0.0,0.0], BBallType.striped, steel_red)
     # Second row
     solid_7    = BilliardBall([-(triEdge+height),-(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_yellow)
     striped_12 = BilliardBall([-(triEdge+height),(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.striped, steel_red)
     # Third row
-    striped_15 = BilliardBall([-(triEdge+2*height),-(corrector+BALL_RADIUS*2)],[0.0,0.0], BBallType.striped, steel_red)
+    striped_15 = BilliardBall([-(triEdge+2*height),-2*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.striped, steel_red)
     b_black    = BilliardBall([-(triEdge+2*height),0],[0.0,0.0], BBallType.black)
-    solid_1    = BilliardBall([-(triEdge+2*height),(corrector+BALL_RADIUS*2)],[0.0,0.0], BBallType.solid, steel_orange)
+    solid_1    = BilliardBall([-(triEdge+2*height),2*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_orange)
     # Fourth row
-    solid_6    = BilliardBall([-(triEdge+3*height),-(corrector+BALL_RADIUS*3)],[0.0,0.0], BBallType.solid, steel_yellow)
+    solid_6    = BilliardBall([-(triEdge+3*height),-3*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_yellow)
     striped_10 = BilliardBall([-(triEdge+3*height),-(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.striped, steel_yellow)
     solid_3    = BilliardBall([-(triEdge+3*height),(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, black)
-    striped_14 = BilliardBall([-(triEdge+3*height),(corrector+BALL_RADIUS*3)],[0.0,0.0], BBallType.striped, steel_red)
+    striped_14 = BilliardBall([-(triEdge+3*height),3*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.striped, steel_red)
     # Fifth row
-    striped_11 = BilliardBall([-(triEdge+4*height),-(corrector+BALL_RADIUS*4)],[0.0,0.0], BBallType.striped, steel_orange)
-    solid_2    = BilliardBall([-(triEdge+4*height),-(corrector+BALL_RADIUS*2)],[0.0,0.0], BBallType.solid, steel_green)
+    striped_11 = BilliardBall([-(triEdge+4*height),-4*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.striped, steel_orange)
+    solid_2    = BilliardBall([-(triEdge+4*height),-2*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_green)
     striped_13 = BilliardBall([-(triEdge+4*height),0],[0.0,0.0], BBallType.striped, steel_red)
-    solid_4    = BilliardBall([-(triEdge+4*height),(corrector+BALL_RADIUS*2)],[0.0,0.0], BBallType.solid, steel_yellow)
-    solid_5    = BilliardBall([-(triEdge+4*height),(corrector+BALL_RADIUS*4)],[0.0,0.0], BBallType.solid, steel_yellow)
+    solid_4    = BilliardBall([-(triEdge+4*height),2*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_yellow)
+    solid_5    = BilliardBall([-(triEdge+4*height),4*(corrector+BALL_RADIUS)],[0.0,0.0], BBallType.solid, steel_yellow)
 
     b_balls = [striped_9, striped_10, striped_11, striped_12, striped_13, striped_14, striped_15, solid_1, solid_2, solid_3, solid_4, solid_5, solid_6, solid_7, b_whitey, b_black]
     #b_balls = [striped_1, striped_2, solid_1, solid_2, b_whitey, b_black]
@@ -180,6 +180,9 @@ def processFrame():
         # Calculates all the collisions of all the balls with the walls
         for ball in b_balls:
             b_table.wallCollisionUpdate(ball)
+
+        # Updates the position of all the balls
+        for ball in b_balls:
             ball.updatePos()
 
         objects += b_balls

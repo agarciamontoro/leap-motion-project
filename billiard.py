@@ -46,7 +46,7 @@ class BilliardBall(Ball):
 
     # Updates ball position attending to the friction
     def updatePos(self):
-        self.vel = [self.vel[i]*COF for i in range(3)]
+        self.vel = [vel_component*COF for vel_component in self.vel]
         self.coord = map(add,self.coord,self.vel)
 
     # Changes velocity to polar coordinates
@@ -60,7 +60,7 @@ class BilliardBall(Ball):
     # Provides the state of the ball (Moving = True)
     def isMoving(self):
         vel_module = self.velToPolar()[0]
-        return vel_module > 0.
+        return vel_module > 0.0
 
     # Calculates if its ball is colliding with other ball
     def collide(self, other_ball):
@@ -149,10 +149,11 @@ class BilliardTable:
         dist_x = self.width/2.  - abs(ball.coord[0])
         dist_y = self.length/2. - abs(ball.coord[2])
 
-        if dist_x <= ball.radius:
-            ball.vel[0] = -ball.vel[0]
-        if dist_y <= ball.radius:
-            ball.vel[2] = -ball.vel[2]
+        if speed_module != 0:
+            if dist_x/speed_module <= 1:
+                ball.vel[0] = -ball.vel[0]
+            if dist_y/speed_module <= 1:
+                ball.vel[2] = -ball.vel[2]
 
     def isBallInPocket(self,ball):
         if ball.type is not BBallType.whitey and ball.type is not BBallType.black:
