@@ -102,6 +102,26 @@ The gesture was easily implemented with the Gesture interface of the API.
 
 ### Final implemented solution
 
+Basing in the previus development, we realised that our design had lot of difficulties for being expanded and maintained, for this reasons we decided to use a new design based in mora files and classes. This files are:
+
+
+- [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
+- [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
+- [forceLine.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/forceLine.py)
+- [game.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/game.py)
+- [gestures.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/gestures.py)
+- [GUI.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/GUI.py)
+- [hand.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/hand.py)
+- [leapDriver.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/leapDriver.py)
+- [main.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/main.py)
+- [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
+- [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
+
+Thanks to this, if in the future we want to continue the development of this game or other person want to create another application, they can base in part of code developed here.
+
+In the opposite the principal objective of *las chapas* development, we changed our principal objective deciding for develop the billiard game. This decision born because of the difficultyness of draw a cap and the game of *las chapas* didn't have a hardly defenited rules than the billiard. Also because of the world know of the billiard, it shows more easyness for being accepted by the society than the game of *las chapas*. Althought both games are quite similar. 
+
+
 Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tendría demasiados impedimentos para ser ampliado y mantenido, con lo cual decidimos pasar a un diseño basado en más archivos y varias clases. Los archivos son:
 
 - [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
