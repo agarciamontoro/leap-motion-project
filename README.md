@@ -126,7 +126,11 @@ En el juego del billar, actúan principalmente 2 fuerzas de la naturaleza el **r
 Por ello, para conseguir un billar cercano a la realidad, necesitabamos simular todas esas fuerzas. Para ello se ha hecho simplifación de todas las fuerzas actuantes en el problema, limitando la dimensión de éstas a 2.
 Para la simulación de los choques, apliques de fuerzas y su consiguiente resultado se ha usado para el sistema de simulación *elastic collision*, en cambio para la simulación del rozamiento se ha establecido un coeficiente de rozamiento, y en cada frame, ese coeficiente, va alterando la velocidad *cinética* de todas las bolas en movimiento.
 
-Debido a la complejidad de la ecuación que describen la *elastic collision*, se han considerado las masas de todas las bolas 1, obteniendo así una ecuación más fácil, sin alterar demasiado la realidad de la simulación
+Debido a la complejidad de la ecuación que describe la *elastic collision*:
+
+![Elastic collision ecuation](https://upload.wikimedia.org/math/b/0/9/b09d23456a39b81126c36844fdc13582.png)
+
+Se han considerado las masas de todas las bolas 1, obteniendo así una ecuación más fácil al anularse el primer elemto del numerador de ambas, sin alterar en gran medida la realidad de la simulación
 
 Volviendo a la implementación. Como hemos comentado anteriormente hemos optado por un diseño basado en varias archivos y clases. A continuación se va a hacer una breve descripción del contenido de cada uno de los archivos, y de las clases existentes en ellos.
 
@@ -153,6 +157,7 @@ En este archivo podemos encontrar las clases **Hand** y **Finger**. El principal
 En este archivo podemos encontrar la clase **ForceLine**. El principal objetivo de esta clase es el obtener los medios para poder pintar e identificar la fuerza con la que se desea golpear a la bola blanca.
 #### billiard.py
 En este archivo podemos encontrar las clases **BilliardBall** y **BilliardTable**. El principal objetivo de ambas es encapsular las propiedades físicas comentadas anteriormente (Colisiones y Rozamiento), siendo en el caso de **BilliardBall** una subclase de **Ball**.
+#### menu.py
 #### game.py
 Este archivo tal y como su nombre indica, implementa todo lo referente al juego. Posición inicial de las bolas, colores, fuerzas, etc.
 Como primera tarea, tiene la de establecer las posicones de las bolas. A continuación inicializa el menú. Y durante el resto de la ejecución se ocupa de la lógica principal del juego, haciendo uso de las distintas clases descritas anteriormente.

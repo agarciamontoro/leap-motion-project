@@ -15,6 +15,7 @@ from constants import *
 
 from operator import add
 
+# Provides the capabilities for stablish an image in the 3D virtual world
 class Image:
     def __init__(self, img_file_name):
         image = PIL.Image.open(img_file_name).convert("RGBA")
@@ -43,6 +44,7 @@ class Image:
     def draw(self):
         window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
 
+        # Prepares the image region
         glMatrixMode(GL_PROJECTION)
         glPushMatrix()
         glLoadIdentity()
@@ -72,7 +74,7 @@ class Image:
 
         glMatrixMode(GL_MODELVIEW)
 
-
+# Provides the capabilities for draw the line that join two points
 class Line:
     def __init__(self, points, color):
         self.points = [[points[i][j] for j in range(3)] for i in range(2)]
@@ -101,7 +103,9 @@ class Line:
         vec_module = math.sqrt(sum([vector[i]**2 for i in range(3)]))
         return [vector[i]/vec_module for i in range(3)]
 
+# Provides the capabilities for draw a ball
 class Ball:
+    # Quality of the ball
     Slices = SLICES
     Stacks = STACKS
 
@@ -141,6 +145,7 @@ class Ball:
 
         glutPostRedisplay()
 
+# Provides the capabilities for draw a region described by several points
 class Quad:
     def __init__(self, points, color=steel_red):
         self.points = points
@@ -159,6 +164,7 @@ class Quad:
             glVertex3f(*point)
         glEnd()
 
+# Provides the capabilities for draw a circle
 class Circle:
     def __init__(self,center=[0.,0.],radius=10,color=steel_red):
         self.center = center
@@ -168,6 +174,7 @@ class Circle:
     def draw(self):
         window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
 
+        # Prepares the region for draw
         glMatrixMode(GL_PROJECTION)
         glPushMatrix()
         glLoadIdentity()
