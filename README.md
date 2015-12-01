@@ -102,41 +102,24 @@ The gesture was easily implemented with the Gesture interface of the API.
 
 ### Final implemented solution
 
-Basing in the previus development, we realised that our design had lot of difficulties for being expanded and maintained, for this reasons we decided to use a new design based in mora files and classes. This files are:
+With the experience of our previous development, we realised that our design had a lot of difficulties for being expanded and maintained. For these reasons, we decided to use a new modular design, ordered in structured files and classes. This modular design will help us -or any other developer- in the future to reuse code for any other software.
 
+Furthermore, we changed the principal objective of *las chapas* game, deciding we would develop a billiard game. This decision was based on the difficulty of drawing a *chapa* and the lack of well-defined rules of the game. Also, the billiard is a world known game, whereas *las chapas* is also known in Spain. The change, however, did not force us to change all of our code, as the physics and logics involved in both game are quite similar.
 
-- [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
-- [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
-- [forceLine.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/forceLine.py)
-- [game.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/game.py)
-- [gestures.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/gestures.py)
-- [GUI.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/GUI.py)
-- [hand.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/hand.py)
-- [leapDriver.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/leapDriver.py)
-- [main.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/main.py)
-- [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
-- [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
+#### Description of billiard game physics
+The physics considered in this billiard game are the following: the **friction** of the balls with the table, the **collisions** between balls and between the balls and the table, and the **force applied** to the white ball. All the movements are then studied as uniformly accelerated movements, slowed down by the friction.
 
-Thanks to this, if in the future we want to continue the development of this game or other person want to create another application, they can base in part of code developed here.
+For achieving a realistic billiard, we need to simulate these physics. As all the movements are done in the table plane, a first simplification can be done: the physics can be reduced to a two-dimensional problem. The collisions are implemented as perfectly *ellastic collsions*; i.e., under the law of the following equations, that give the new velocities of two colliding balls depending on their positions, the previous velocities and the masses:
 
-In the opposite the principal objective of *las chapas* development, we changed our principal objective deciding for develop the billiard game. This decision born because of the difficultyness of draw a cap and the game of *las chapas* didn't have a hardly defenited rules than the billiard. Also because of the world know of the billiard, it shows more easyness for being accepted by the society than the game of *las chapas*. Althought both games are quite similar. 
+![Elastic collision ecuation](https://upload.wikimedia.org/math/3/a/7/3a70e57f4a5cc0e5e0e11be153aa4b10.png)
 
-#### Little description of the billiard problem
-In the billiard, there are two principal nature forces the **rubbing** and the **kinetic** velocity.
+These equations can be simplified considering all ball masses equal to 1. This consideration does not affect the realism of the game, as all the billiard balls have the same mass and, measuring in the appopriate units, can be seen equal to 1.
 
-Because of this, for archieve a realistic billiard, we need to simulate every forces. For this it did a simplification of every forces that exists in the problem, limitin the dimension of there to two. For the simulation of the collisions, and forces apllied and his expected result it had used for the simulation system the *elastic collision*, on the other hand for the simulation of the *rubbing* it has stablished a **rub** coefficient, and in each frame, it alters the *kinectic* velocity for every balls in movements.
+On the other hand, for the simulation of the *friction*, just a simple **friction** coefficient has been considered. This coefficient slows down, in each frame, the module of the velocity of every ball.
 
-Due to the complexity of the ecuation that describes the *elastic collision*:
+#### Implementation
 
-![Elastic collision ecuation](https://upload.wikimedia.org/math/b/0/9/b09d23456a39b81126c36844fdc13582.png)
-
-It had considered every mass ball to 1, obtaining an ecuation more easier because of the anulation of the first element of the numerator of both, unaltering in great measure the reality of the simulation.
-
-Returning tu the implementation. As we comment previously we opted for a desing based int different classes and files. Now it has to do a little description of every files and classes int them.
-
-
-
-Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tendría demasiados impedimentos para ser ampliado y mantenido, con lo cual decidimos pasar a un diseño basado en más archivos y varias clases. Los archivos son:
+Our modular design, which follows a pure object-oriented paradigm to ease the expansion and maintaining of the code, is structured in the following files:
 
 - [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
 - [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
@@ -150,31 +133,19 @@ Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño
 - [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
 - [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
 
-De esta manera, si en el futuro deseamos continuar el desarrollo de éste juego o nosotros u otras personas desean crear algún otro, podrán basarse en parte del código aquí desarrollado.
+The main structure is quite simple: the endless OpenGL loop of the GUI is always asking the game.py file for objects to draw. This file, when required by the GUI, asks for the hand data to the Leap Motion listener, process the data -see interaction between hands and balls, detect collisions, manage the tutorial/game/menu logic...- and returns to the GUI a list of objects that contain a `draw` method. The GUI, then, draws all the elements returned by the game calling this method in all the objects.
 
-Las contrapartidas del objetivo principal del desarrollo *las chapas*, nos hizo decantarnos por cambiar nuestro objetivo final, decidiendo desarrollar el juego del *billar*. Ésta decisión nació de la dificultad de dibujar una chapa y de que no es un juego con unas reglas tan establecidas cómo es el caso del billar. Además de que el *billar* por ser un juego mundialmente conocido, presentaba más facilidad para ser aceptado por la sociedad que el juego de *las chapas*. Aún así ambos juegos tienen muchas similitudes, con lo que llegar de uno al otro no presenta un gran reto.
+This structure derives in a frame-based animation, and not in a time-based animation. Although this last technique is more often used and more efficient, the first one was implemented, as a lot of the code was already implemented in this kind of structure.
 
-#### Breve descripción del problema (Billar)
-En el juego del billar, actúan principalmente 2 fuerzas de la naturaleza el **rozamiento** y la **cinética**:
+Let's see the files and its classes:
 
-Por ello, para conseguir un billar cercano a la realidad, necesitabamos simular todas esas fuerzas. Para ello se ha hecho simplifación de todas las fuerzas actuantes en el problema, limitando la dimensión de éstas a 2.
-Para la simulación de los choques, apliques de fuerzas y su consiguiente resultado se ha usado para el sistema de simulación *elastic collision*, en cambio para la simulación del rozamiento se ha establecido un coeficiente de rozamiento, y en cada frame, ese coeficiente, va alterando la velocidad *cinética* de todas las bolas en movimiento.
-
-Debido a la complejidad de la ecuación que describe la *elastic collision*:
-
-![Elastic collision ecuation](https://upload.wikimedia.org/math/b/0/9/b09d23456a39b81126c36844fdc13582.png)
-
-Se han considerado las masas de todas las bolas 1, obteniendo así una ecuación más fácil al anularse el primer elemto del numerador de ambas, sin alterar en gran medida la realidad de la simulación
-
-Volviendo a la implementación. Como hemos comentado anteriormente hemos optado por un diseño basado en varias archivos y clases. A continuación se va a hacer una breve descripción del contenido de cada uno de los archivos, y de las clases existentes en ellos.
-
-#### constants.py
+##### constants.py
 Éste archivo tan solo contiene algunas de las constantes que se van a usar a lo largo de todo el proyecto
-#### LeapDriver.py
+##### LeapDriver.py
 Éste archivo tan solo contiene la clase **SampleListener** implementada tal y como se recomienda en la documentación del Leap-Motion con tan solo algunos cambios menores para adaptarlo a nuestro programa.
-#### gestures.py
+##### gestures.py
 Éste archivo tan solo contiene el control de los distintos gestos que se desea detectar.
-#### primitives.py
+##### primitives.py
 En este archivo podemos encontrar las clases **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, a continuación las comentarmeos brevemente.
 
 - **Image** Nos permite dibujar una imagen en nuestro mundo virtual de manera que no seamos conscientes que estamos en un mundo 3D.
@@ -185,17 +156,24 @@ En este archivo podemos encontrar las clases **Image**, **Line**, **Ball**, **Qu
 - **Loader**
 - **Button**
 
-#### hand.py
+##### hand.py
 En este archivo podemos encontrar las clases **Hand** y **Finger**. El principal objetivo de ambas es el correcto dibujado de éstas. Como es natural, la mano (**Hand**) contendrá en su interior los distintos dedos (**Fingers**). **Fingers** en cambio contiene a partir de la identificación mediante el uso de los datos proporcionados por el Leap-Motion, los puntos necesarios para crear las falanges y los nudillos, que simplemente son objetos **Ball** y **Line**.
-#### forceLine.py
+##### forceLine.py
 En este archivo podemos encontrar la clase **ForceLine**. El principal objetivo de esta clase es el obtener los medios para poder pintar e identificar la fuerza con la que se desea golpear a la bola blanca.
-#### billiard.py
+##### billiard.py
 En este archivo podemos encontrar las clases **BilliardBall** y **BilliardTable**. El principal objetivo de ambas es encapsular las propiedades físicas comentadas anteriormente (Colisiones y Rozamiento), siendo en el caso de **BilliardBall** una subclase de **Ball**.
-#### menu.py
-#### game.py
+##### menu.py
+This file contains the necessary classes to implement a menu, which consists of a screen (basically, an image) and an arbitrary number of buttons. The classes in this file are the following:
+* **NavigationalButton**: Class implementing a button whose objective is to change the screen; i.e., to navigate between the menu screens.
+* **ActionButton**: Class implementing a button whose objective is to execute an arbitrary function when pressed.
+* **Screen**: Class implementing the images that form the menu. A screen is formed by an image and a list of buttons in the image.
+* **Menu**: Main class, that uses all the classes before to implement an easy-to-use menu. A menu consists only of a start screen and a loader -an auxiliary object to manage the button *clicks*-. The navigation between the screens is transparent to the menu, as it is easily managed by the navigational buttons.
+
+
+##### game.py
 Este archivo tal y como su nombre indica, implementa todo lo referente al juego. Posición inicial de las bolas, colores, fuerzas, etc.
 Como primera tarea, tiene la de establecer las posicones de las bolas. A continuación inicializa el menú. Y durante el resto de la ejecución se ocupa de la lógica principal del juego, haciendo uso de las distintas clases descritas anteriormente.
-#### main.py
+##### main.py
 Este archivo se limita a inicializar los distintos objetos descritos anteriormente para que comience el juego.
 
 ## References
