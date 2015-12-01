@@ -163,7 +163,8 @@ This file contains the basic drawing primitives:
 In this file we can find the classes **Hand** and **Finger**. The principal objective that both is the draw of them. As natural, the hand contains several fingers. **Fingers** in the other hand contains with the identification using data provides by Leap-Motion, the needed points for the phalanx and knucles, tthat only are **Ball** and **Line**
 
 #### billiard.py
-En este archivo podemos encontrar las clases **BilliardBall** y **BilliardTable**. El principal objetivo de ambas es encapsular las propiedades físicas comentadas anteriormente (Colisiones y Rozamiento), siendo en el caso de **BilliardBall** una subclase de **Ball**.
+In this file we can find the classes **BilliardBall** and **BilliardTable**. The principal objective of both is encapsule the physics properties previously mentioned (Collides and Rubs), being **BilliardBall** a subclass of **Ball**.
+
 ##### menu.py
 This file contains the necessary classes to implement a menu, which consists of a screen (basically, an image) and an arbitrary number of buttons. The classes in this file are the following:
 * **NavigationalButton**: Class implementing a button whose objective is to change the screen; i.e., to navigate between the menu screens.
@@ -172,10 +173,10 @@ This file contains the necessary classes to implement a menu, which consists of 
 * **Menu**: Main class, that uses all the classes before to implement an easy-to-use menu. A menu consists only of a start screen and a loader -an auxiliary object to manage the button *clicks*-. The navigation between the screens is transparent to the menu, as it is easily managed by the navigational buttons.
 
 ##### game.py
-Este archivo tal y como su nombre indica, implementa todo lo referente al juego. Posición inicial de las bolas, colores, fuerzas, etc.
-Como primera tarea, tiene la de establecer las posicones de las bolas. A continuación inicializa el menú. Y durante el resto de la ejecución se ocupa de la lógica principal del juego, haciendo uso de las distintas clases descritas anteriormente.
+This file uses all the resources commented before for stablish the inicial position of the balls, colors, forces... As first task, it has to stablish the balls position. After, it initializes the menu. Now it only does the principal logic of the game.  
+
 ##### main.py
-Este archivo se limita a inicializar los distintos objetos descritos anteriormente para que comience el juego.
+This file only initializes the differents objects for the initialization of the game.
 
 ## References
 * **GUI.py**: the basic OpenGL functions -init, camera, projection and view settings- in this file are adapted from this [@analca3](https://github.com/analca3)'s repository: [Triodo de Frenet](https://github.com/analca3/TriedroFrenet_Evoluta).
