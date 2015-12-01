@@ -5,8 +5,7 @@ This repository contains the Leap Motion project developed for the course **Nuev
 
 The final goal is to simulate the classical game of *las chapas*, letting the user to interact with the computer through the movement of its own hands.
 
-### Current state
-By now, just a first recognition and interaction phase has been implemented. The functionality now is simple: the scene has just a ball that changes its colour when it is touched.
+The final goal commented before has changed in the current version, now is to simulate the **billiard** game.
 
 ## Instalation
 The project is coded in Python, using the Leap Motion driver and the OpenGL library. The required dependencies are the following:
