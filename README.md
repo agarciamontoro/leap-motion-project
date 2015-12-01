@@ -124,17 +124,17 @@ On the other hand, for the simulation of the *friction*, just a simple **frictio
 
 Our modular design, which follows a pure object-oriented paradigm to ease the expansion and maintaining of the code, is structured in the following files:
 
-- [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/billiard.py)
-- [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/constants.py)
-- [forceLine.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/forceLine.py)
-- [game.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/game.py)
-- [gestures.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/gestures.py)
-- [GUI.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/GUI.py)
-- [hand.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/hand.py)
-- [leapDriver.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/leapDriver.py)
-- [main.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/main.py)
-- [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/menu.py)
-- [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/wip/primitives.py)
+- [billiard.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/billiard.py)
+- [constants.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/constants.py)
+- [forceLine.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/forceLine.py)
+- [game.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/game.py)
+- [gestures.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/gestures.py)
+- [GUI.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/GUI.py)
+- [hand.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/hand.py)
+- [leapDriver.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/leapDriver.py)
+- [main.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/main.py)
+- [menu.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/menu.py)
+- [primitives.py](https://github.com/agarciamontoro/leap-motion-project/blob/master/primitives.py)
 
 The main structure is quite simple: the endless OpenGL loop of the GUI is always asking the game.py file for objects to draw. This file, when required by the GUI, asks for the hand data to the Leap Motion listener, process the data -see interaction between hands and balls, detect collisions, manage the tutorial/game/menu logic...- and returns to the GUI a list of objects that contain a `draw` method. The GUI, then, draws all the elements returned by the game calling this method in all the objects.
 
