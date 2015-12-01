@@ -70,6 +70,7 @@ Follow the tutorial step by step and you will get to the real program!s
 
 When you finish the tutorial, you can start playing with the ball and with its colors. Try to touch it with one hand, the other, or even both of them!
 
+## *If you only want to know only how is it does the current version, go to Secon assignment*
 ## First assignment
 ### Problem considered
 The final goal is to improve and make more real the interaction with the computer through the use of the Leap Motion device and its developer API.
@@ -100,11 +101,14 @@ When the program was finished, we made a simple tutorial that explained how to u
 
 The gesture was easily implemented with the Gesture interface of the API.
 
+## Second assignment
 ### Final implemented solution
 
 With the experience of our previous development, we realised that our design had a lot of difficulties for being expanded and maintained. For these reasons, we decided to use a new modular design, ordered in structured files and classes. This modular design will help us -or any other developer- in the future to reuse code for any other software.
 
 Furthermore, we changed the principal objective of *las chapas* game, deciding we would develop a billiard game. This decision was based on the difficulty of drawing a *chapa* and the lack of well-defined rules of the game. Also, the billiard is a world known game, whereas *las chapas* is also known in Spain. The change, however, did not force us to change all of our code, as the physics and logics involved in both game are quite similar.
+
+Due to all the changes commented before, many things develpoed in the **First assigment** have change, for example the tutorial.
 
 #### Description of billiard game physics
 The physics considered in this billiard game are the following: the **friction** of the balls with the table, the **collisions** between balls and between the balls and the table, and the **force applied** to the white ball. All the movements are then studied as uniformly accelerated movements, slowed down by the friction.
