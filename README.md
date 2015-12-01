@@ -119,7 +119,7 @@ Basing in the previus development, we realised that our design had lot of diffic
 
 Thanks to this, if in the future we want to continue the development of this game or other person want to create another application, they can base in part of code developed here.
 
-In the opposite the principal objective of *las chapas* development, we changed our principal objective deciding for develop the billiard game. This decision born because of the difficultyness of draw a cap and the game of *las chapas* didn't have a hardly defenited rules than the billiard. Also because of the world know of the billiard, it shows more easyness for being accepted by the society than the game of *las chapas*. Althought both games are quite similar. 
+In the opposite the principal objective of *las chapas* development, we changed our principal objective deciding for develop the billiard game. This decision born because of the difficultyness of draw a cap and the game of *las chapas* didn't have a hardly defenited rules than the billiard. Also because of the world know of the billiard, it shows more easyness for being accepted by the society than the game of *las chapas*. Althought both games are quite similar.
 
 #### Little description of the billiard problem
 In the billiard, there are two principal nature forces the **rubbing** and the **kinetic** velocity.
@@ -134,7 +134,30 @@ It had considered every mass ball to 1, obtaining an ecuation more easier becaus
 
 Returning tu the implementation. As we comment previously we opted for a desing based int different classes and files. Now it has to do a little description of every files and classes int them.
 
+#### constant.py
+This file only contains some constant that will be used across the project.
 
+#### leapDriver.py
+This file only contains the class **SampleListener** implemented as recommends in the documentation the Leap-Motion with only some little changes for adapt it to our program.
+
+#### gestures.py
+This file only contains the control of all the gestures that we wish to detect
+
+#### primitives.py
+This file contains the classes **Image**, **Line**, **Ball**, **Quad**, **Circle**, **Loader** y **Button**, now it comes to be explain.
+
+- **Image** permits draw an image in our virtual world.
+- **Line** permits draw a line that join 2 points in the 3D space.
+- **Ball** permits draw a sphere in the point, radius and quality desired.
+- **Quad** permits draw the *quad* that creates a set of points.
+- **Circle** permits draw a disc in the point, radius and quality desired.
+- **Loader **
+- **Button**
+
+####hand.py
+In this file we can find the classes **Hand** and **Finger**. The principal objective that both is the draw of them. As natural, the hand contains several fingers. **Fingers** in the other hand contains with the identification using data provides by Leap-Motion, the needed points for the phalanx and knucles, tthat only are **Ball** and **Line**
+
+#### billiard.py
 
 Basándonos en todo lo hecho anteriormente, nos dimos cuenta que nuestro diseño tendría demasiados impedimentos para ser ampliado y mantenido, con lo cual decidimos pasar a un diseño basado en más archivos y varias clases. Los archivos son:
 
