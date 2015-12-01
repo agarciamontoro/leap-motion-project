@@ -42,7 +42,8 @@ class Image:
         glDisable( GL_TEXTURE_2D )
 
     def draw(self):
-        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        #window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        window_size = (1024,800)
 
         # Prepares the image region
         glMatrixMode(GL_PROJECTION)
@@ -172,7 +173,8 @@ class Circle:
         self.color  = color
 
     def draw(self):
-        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        #window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        window_size = (1024,800)
 
         # Prepares the region for draw
         glMatrixMode(GL_PROJECTION)
@@ -269,7 +271,8 @@ class Button(object):
         top_right_c = self.rect[1]
         bottom_right_c = map(add,bottom_left_c,[width,0])
 
-        window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        #window_size = (glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT))
+        window_size = (1024,800)
 
         glMatrixMode(GL_PROJECTION)
         glPushMatrix()
