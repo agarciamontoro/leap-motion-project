@@ -208,7 +208,7 @@ class Circle:
 
 class Loader:
     loader_radius = 55
-    loader_width = 25
+    loader_width = 15
 
     def __init__(self, center=[0.0,0.0], color=steel_red):
         self.center = center
