@@ -181,6 +181,18 @@ This file uses all the resources commented before for stablish the inicial posit
 ##### main.py
 This file only initializes the differents objects for the initialization of the game.
 
+### Known bugs
+#### Ball collision bug
+There are some times that the balls collide and the collision management does not work well. Therefore, the balls stick together one inside the other. Then, the problem disappears as it appeared.
+
+We think the problem is not in the collision management but in the collision detection -we use predictive collision techniques, but for some reason, there are some times that it fails-.
+
+#### Window size
+Although the window size is hard-coded to be 1024x800 px, the window behaves in different ways depending on the monitor resolution. We do not know what could cause this bug, as the image stretches in smaller screen resolutions in spite of the hard-coded values.
+
+#### Hand detection in some borders of the device
+There are some zones in the Leap Motion detection box that behave worst than the others. For example, the zone closer to the monitor makes the detection to behave strangely. We do not know if this is a problem of the Leap Motion device or of our own code.
+
 ## References
 * **GUI.py**: the basic OpenGL functions -init, camera, projection and view settings- in this file are adapted from this [@analca3](https://github.com/analca3)'s repository: [Triodo de Frenet](https://github.com/analca3/TriedroFrenet_Evoluta).
 * **LeapDriver.py**: the basic structure of this file is taken from the [Hello World tutorial](https://developer.leapmotion.com/documentation/python/devguide/Sample_Tutorial.html).
