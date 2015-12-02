@@ -166,7 +166,7 @@ This file contains the basic drawing primitives:
 In this file we can find the classes **Hand** and **Finger**. The principal objective that both is the draw of them. As natural, the hand contains several fingers. **Fingers** in the other hand contains with the identification using data provides by Leap-Motion, the needed points for the phalanx and knucles, tthat only are **Ball** and **Line**
 
 #### billiard.py
-In this file we can find the classes **BilliardBall** and **BilliardTable**. The principal objective of both is encapsule the physics properties previously mentioned (Collides and Rubs), being **BilliardBall** a subclass of **Ball**.
+In this file we can find the classes **BilliardBall** and **BilliardTable**. The principal objective of both is encapsule the physics properties previously mentioned (collision and friction), being **BilliardBall** a subclass of **Ball**.
 
 ##### menu.py
 This file contains the necessary classes to implement a menu, which consists of a screen (basically, an image) and an arbitrary number of buttons. The classes in this file are the following:
