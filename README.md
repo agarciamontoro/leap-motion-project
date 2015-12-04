@@ -69,7 +69,7 @@ Follow the tutorial step by step and you will get to the real program!s
 
 When you finish the tutorial, you can start playing with the ball and with its colors. Try to touch it with one hand, the other, or even both of them!
 
-## *If you only want to know only how is it does the current version, go to Secon assignment*
+*Note: if you just want to know about the current version, go to SeconD assignment section*
 ## First assignment
 ### Problem considered
 The final goal is to improve and make more real the interaction with the computer through the use of the Leap Motion device and its developer API.
