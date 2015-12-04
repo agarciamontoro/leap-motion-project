@@ -55,21 +55,9 @@ Connect the Leap Motion, start the daemon -with `sudo leapd` or `sudo systemctl 
 $> python2 main.py
 ```
 
-You will see a tutorial like the following:
+When you finish the tutorial, you can start playing with the real game!
 
-![Primera escena](Screenshots/01.png)
-
-Follow the tutorial step by step and you will get to the real program!s
-
-![02](Screenshots/02.png)
-
-![03](Screenshots/03.png)
-
-![04](Screenshots/04.png)
-
-When you finish the tutorial, you can start playing with the ball and with its colors. Try to touch it with one hand, the other, or even both of them!
-
-*Note: if you just want to know about the current version, go to SeconD assignment section*
+*Note: if you just want to know about the current version, go to Second assignment section*
 ## First assignment
 ### Problem considered
 The final goal is to improve and make more real the interaction with the computer through the use of the Leap Motion device and its developer API.
@@ -99,6 +87,19 @@ A simple but powerful shadow was implemented: the hands were just projected in t
 When the program was finished, we made a simple tutorial that explained how to use the program. Furthermore, we chose to implement Leap gestures to advance throughout the tutorial: the user has to make a key tap gesture in order to get to the next step.
 
 The gesture was easily implemented with the Gesture interface of the API.
+
+#### First tutorial
+You will see a tutorial like the following:
+
+![Firs scene](Screenshots/01.png)
+
+Follow the tutorial step by step and you will get to the real program!s
+
+![02](Screenshots/02.png)
+
+![03](Screenshots/03.png)
+
+![04](Screenshots/04.png)
 
 ## Second assignment
 ### Final implemented solution
