@@ -28,7 +28,8 @@ If the Python OpenGL library is not in your distribution repository, use the pac
 ### Arch Linux example
 Arch Linux has all required packages in the official -and AUR- repositories. To install Python and OpenGL, execute the following order:
 ```
-$> pacman -S python2 python2-opengl python2-pygame python2-pillow python2-enum34 python2-shapely
+$> pacman -S python2 python2-opengl python2-pygame python2-pillow
+   python2-enum34 python2-shapely
 ```
 
 [leap-motion-driver](https://aur.archlinux.org/packages/leap-motion-driver) and [leap-motion-sdk](https://aur.archlinux.org/packages/leap-motion-sdk) packages are not in the official repository but in the Arch User Repository. To install them, just build the packages manually or use a package manager like `pacaur`:
@@ -39,14 +40,18 @@ $> pacaur -S leap-motion-driver leap-motion-sdk
 
 Caution! leap-motion-sdk throws an error if the pkg-build is not edited. You have to add `${pkgdir}` in the following lines
 ```
-install -D -m644 "/usr/lib/Leap/Leap.py" "${pkgdir}/usr/lib/python2.7/site-packages/Leap.py"
-install -D -m644 "/usr/lib/Leap/LeapPython.so" "${pkgdir}/usr/lib/python2.7/site-packages/LeapPython.so"
+install -D -m644 "/usr/lib/Leap/Leap.py"
+        "${pkgdir}/usr/lib/python2.7/site-packages/Leap.py"
+install -D -m644 "/usr/lib/Leap/LeapPython.so"
+        "${pkgdir}/usr/lib/python2.7/site-packages/LeapPython.so"
 ```
 
 They have to look like this:
 ```
-install -D -m644 "${pkgdir}/usr/lib/Leap/Leap.py" "${pkgdir}/usr/lib/python2.7/site-packages/Leap.py"
-install -D -m644 "${pkgdir}/usr/lib/Leap/LeapPython.so" "${pkgdir}/usr/lib/python2.7/site-packages/LeapPython.so"
+install -D -m644 "${pkgdir}/usr/lib/Leap/Leap.py"
+        "${pkgdir}/usr/lib/python2.7/site-packages/Leap.py"
+install -D -m644 "${pkgdir}/usr/lib/Leap/LeapPython.so"
+        "${pkgdir}/usr/lib/python2.7/site-packages/LeapPython.so"
 ```
 
 ## Execution and usage
@@ -58,6 +63,7 @@ $> python2 main.py
 When you finish the tutorial, you can start playing with the real game!
 
 *Note: if you just want to know about the current version, go to Second assignment section*
+
 ## First assignment
 ### Problem considered
 The final goal is to improve and make more real the interaction with the computer through the use of the Leap Motion device and its developer API.
@@ -88,19 +94,6 @@ When the program was finished, we made a simple tutorial that explained how to u
 
 The gesture was easily implemented with the Gesture interface of the API.
 
-#### First tutorial
-You will see a tutorial like the following:
-
-![Firs scene](Screenshots/01.png)
-
-Follow the tutorial step by step and you will get to the real program!s
-
-![02](Screenshots/02.png)
-
-![03](Screenshots/03.png)
-
-![04](Screenshots/04.png)
-
 ## Second assignment
 ### Final implemented solution
 
@@ -115,7 +108,7 @@ The physics considered in this billiard game are the following: the **friction**
 
 For achieving a realistic billiard, we need to simulate these physics. As all the movements are done in the table plane, a first simplification can be done: the physics can be reduced to a two-dimensional problem. The collisions are implemented as perfectly *ellastic collsions*; i.e., under the law of the following equations, that give the new velocities of two colliding balls depending on their positions, the previous velocities and the masses:
 
-![Elastic collision ecuation](https://upload.wikimedia.org/math/3/a/7/3a70e57f4a5cc0e5e0e11be153aa4b10.png)
+![Elastic collision equation](https://upload.wikimedia.org/math/3/a/7/3a70e57f4a5cc0e5e0e11be153aa4b10.png)
 
 These equations can be simplified considering all ball masses equal to 1. This consideration does not affect the realism of the game, as all the billiard balls have the same mass and, measuring in the appropriate units, can be seen equal to 1.
 
@@ -171,16 +164,17 @@ In this file we can find the classes **BilliardBall** and **BilliardTable**. The
 
 ##### menu.py
 This file contains the necessary classes to implement a menu, which consists of a screen (basically, an image) and an arbitrary number of buttons. The classes in this file are the following:
+
 * **NavigationalButton**: Class implementing a button whose objective is to change the screen; i.e., to navigate between the menu screens.
 * **ActionButton**: Class implementing a button whose objective is to execute an arbitrary function when pressed.
 * **Screen**: Class implementing the images that form the menu. A screen is formed by an image and a list of buttons in the image.
 * **Menu**: Main class, that uses all the classes before to implement an easy-to-use menu. A menu consists only of a start screen and a loader -an auxiliary object to manage the button *clicks*-. The navigation between the screens is transparent to the menu, as it is easily managed by the navigational buttons.
 
 ##### game.py
-This file uses all the resources commented before for stablish the inicial position of the balls, colors, forces... As first task, it has to stablish the balls position. After, it initializes the menu. Now it only does the principal logic of the game.  
+This file uses all the resources commented before for establish the initial position of the balls, colors, forces... As first task, it has to establish the balls position. After, it initializes the menu. Now it only does the principal logic of the game.  
 
 ##### main.py
-This file only initializes the differents objects for the initialization of the game.
+This file only initializes the different objects for the initialization of the game.
 
 ### Known bugs
 #### Ball collision bug
@@ -198,5 +192,4 @@ There are some zones in the Leap Motion detection box that behave worst than the
 * **GUI.py**: the basic OpenGL functions -init, camera, projection and view settings- in this file are adapted from this [@analca3](https://github.com/analca3)'s repository: [Triodo de Frenet](https://github.com/analca3/TriedroFrenet_Evoluta).
 * **LeapDriver.py**: the basic structure of this file is taken from the [Hello World tutorial](https://developer.leapmotion.com/documentation/python/devguide/Sample_Tutorial.html).
 * Some information about [Elastic collision](https://en.wikipedia.org/wiki/Elastic_collision)
-* **Billiard cloth**: the texture used is taken from [](http://www.photos-public-domain.com/2012/08/14/kelly-green-microfiber-cloth-fabric-texture/)
 * **Icons**: All icons have Free or CC licenses. See the [gear](https://www.iconfinder.com/icons/103170/gear_preferences_settings_tools_icon#size=128), [arrow](https://www.iconfinder.com/icons/647889/arrow_back_direction_move_previous_icon#size=128), [cross](https://www.iconfinder.com/icons/226589/circle_cross_icon#size=128) and [hand](https://www.iconfinder.com/icons/446303/finger_gesture_hand_interactive_scroll_swipe_tap_icon#size=128) pages for more information.
